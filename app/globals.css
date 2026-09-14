@@ -516,6 +516,48 @@ textarea:focus-visible {
   background: var(--signal-yellow);
 }
 
+@media (min-width: 768px) {
+  .map-header {
+    top: max(var(--space-4), env(safe-area-inset-top));
+    right: var(--space-6);
+    left: var(--space-6);
+    min-height: 60px;
+    padding: 0.75rem 1rem;
+  }
+
+  .map-header__brand {
+    font-size: 1.15rem;
+  }
+
+  .map-header__city {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.72rem;
+  }
+
+  .map-toolbar {
+    top: max(128px, calc(env(safe-area-inset-top) + 128px));
+    right: var(--space-6);
+    left: auto;
+    width: fit-content;
+    max-width: calc(100% - var(--space-6) - var(--space-6));
+  }
+
+  .map-toolbar span {
+    flex: none;
+    padding-right: 0.75rem;
+  }
+
+  .map-toolbar button,
+  .map-toolbar span {
+    min-height: 48px;
+    padding: 0.55rem 0.9rem;
+  }
+
+  .search-area-action {
+    top: max(192px, calc(env(safe-area-inset-top) + 192px));
+  }
+}
+
 .search-area-action {
   position: absolute;
   z-index: 4;

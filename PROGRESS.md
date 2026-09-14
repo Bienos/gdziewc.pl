@@ -270,6 +270,18 @@
   replacement private watch and a second nearby request. The existing 320px
   responsive location-flow coverage continues to include the toolbar.
 - `npm run lint`, `npm run typecheck`, and `npm run build` passed.
+
+## TASK-048 verification observed on 2026-09-14
+
+- On viewports at least 768px wide, the map header has a more generous outer
+  margin and the results/controls toolbar becomes a compact panel aligned to
+  the right rather than stretching across the entire map.
+- The toolbar begins below the measured header with clear separation, and the
+  area-search action moves below it. Mobile retains the existing full-width
+  toolbar and 44px-or-larger controls.
+- Focused Playwright geometry coverage passed at a 1366×540 wide, shallow
+  viewport; the existing 320px mobile flow remains covered. `npm run lint`,
+  `npm run typecheck`, and `npm run build` passed.
 - Staging Vercel WAF rules and managed-database TLS/least-privilege verification.
 
 ## TASK-029 verification observed on 2026-09-14

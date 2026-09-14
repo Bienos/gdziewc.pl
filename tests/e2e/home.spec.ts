@@ -12,6 +12,7 @@ declare global {
 }
 
 test("location is requested only after the action and success stays private", async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 540 });
   const externalRequests: string[] = [];
   let nearbyBody = "";
   let nearbyRequests = 0;
@@ -151,6 +152,12 @@ test("location is requested only after the action and success stays private", as
   await expect(page.getByRole("region", { name: "Interaktywna mapa Warszawy. Użyj strzałek, aby przesuwać mapę, oraz przycisków powiększenia." })).toBeVisible();
   await expect(page.getByRole("button", { name: "Powiększ mapę" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Pomniejsz mapę" })).toBeVisible();
+  const headerBox = await page.locator(".map-header").boundingBox();
+  const toolbarBox = await page.getByRole("group", { name: "Sterowanie wynikami" }).boundingBox();
+  expect(headerBox).not.toBeNull();
+  expect(toolbarBox).not.toBeNull();
+  expect(toolbarBox?.y).toBeGreaterThan((headerBox?.y ?? 0) + (headerBox?.height ?? 0) + 8);
+  expect(toolbarBox?.width).toBeLessThan(560);
   const refreshLocation = page.getByRole("button", { name: "Odśwież moją lokalizację GPS" });
   await expect(refreshLocation).toBeVisible();
   await refreshLocation.click();

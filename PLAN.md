@@ -227,6 +227,11 @@ shows the browser-reported precision instead of implying false exactness.
 Outcome: a person browsing the map can explicitly request a new browser GPS
 reading when their current point appears wrong.
 
+### TASK-048 — Map toolbar breathing room
+
+Outcome: map controls remain clear and comfortably spaced on wide, shallow
+screens as well as the primary mobile view.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:
