@@ -125,9 +125,9 @@ test("location is requested only after the action and success stays private", as
   });
 
   await page.goto("/");
-  await expect(page).toHaveTitle(/GdzieKibel\.pl/);
+  await expect(page).toHaveTitle(/GDZIEWC\.PL/);
   await expect(page.getByTestId("map-shell")).toBeVisible();
-  const brandReset = page.getByLabel("GdzieKibel.pl — wróć do strony startowej");
+  const brandReset = page.getByLabel("GDZIEWC.PL — wróć do strony startowej");
   await expect(brandReset).toBeVisible();
   await expect(brandReset).toHaveAttribute("href", "/");
   await expect(brandReset).toHaveJSProperty("tagName", "A");
@@ -459,8 +459,8 @@ test("separate visitors keep separate private browser locations", async ({ brows
   expect(first.nearbyBody()).not.toContain("52.2066");
   expect(second.nearbyBody()).toContain("52.2066");
   expect(second.nearbyBody()).not.toContain("52.2297");
-  await expect(first.page).toHaveTitle(/GdzieKibel\.pl/);
-  await expect(second.page).toHaveTitle(/GdzieKibel\.pl/);
+  await expect(first.page).toHaveTitle(/GDZIEWC\.PL/);
+  await expect(second.page).toHaveTitle(/GDZIEWC\.PL/);
   expect(await first.page.evaluate(() => `${JSON.stringify(localStorage)}${JSON.stringify(sessionStorage)}`)).toBe("{}{}");
   expect(await second.page.evaluate(() => `${JSON.stringify(localStorage)}${JSON.stringify(sessionStorage)}`)).toBe("{}{}");
   await first.context.close();

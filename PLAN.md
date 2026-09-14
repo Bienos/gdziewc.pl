@@ -242,6 +242,11 @@ uses clear copy to return to a visitor's own point.
 Outcome: the map has calm, readable controls and the visible wordmark provides
 a clear reset to the streamlined landing journey.
 
+### TASK-051 — Rename brand to GDZIEWC.PL
+
+Outcome: the product brand and canonical domain are aligned to GDZIEWC.PL,
+with the custom domain attached and awaiting its DNS verification record.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

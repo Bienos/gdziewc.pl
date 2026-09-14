@@ -310,6 +310,16 @@
 - Focused Playwright map/landing coverage, `npm run lint`, `npm run typecheck`,
   and `npm run build` passed.
 
+## TASK-051 verification observed on 2026-09-15
+
+- The visible wordmark, accessible label, metadata, canonical URL, robots and
+  sitemap now use `GDZIEWC.PL` / `gdziewc.pl`. Existing product behaviour did
+  not change.
+- `gdziewc.pl` is attached to the Vercel production project. Its third-party
+  DNS still needs the recommended apex record `A gdziewc.pl 76.76.21.21` before
+  the domain can verify and serve traffic.
+- `npm run lint`, `npm run typecheck`, and `npm run build` passed.
+
 - Staging Vercel WAF rules and managed-database TLS/least-privilege verification.
 
 ## TASK-029 verification observed on 2026-09-14

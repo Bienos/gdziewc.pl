@@ -1,4 +1,4 @@
-# GdzieKibel.pl
+# GDZIEWC.PL
 
 Mobile-first Warsaw toilet finder with a private click-to-locate journey, real PostGIS nearby search, map/list results, details, walking navigation and incorrect-data reports. The initial reproducible data source is a validated, attributed Warsaw OpenStreetMap snapshot.
 
