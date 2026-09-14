@@ -21,6 +21,7 @@ interface GeographicWarsawMapProps {
   toilets: NearbyToilet[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  onMapMove: (center: Coordinate) => void;
 }
 
 function markerButton(toilet: NearbyToilet, index: number, selectedId: string | null, onSelect: (id: string) => void) {
@@ -73,11 +74,14 @@ export function GeographicWarsawMap({
   toilets,
   selectedId,
   onSelect,
+  onMapMove,
 }: GeographicWarsawMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const markersRef = useRef<MapLibreMarker[]>([]);
   const userMarkerRef = useRef<MapLibreMarker | null>(null);
+  const userMovedRef = useRef(false);
+  const hasFittedRef = useRef(false);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const userLatitude = userLocation?.lat;
@@ -108,6 +112,14 @@ export function GeographicWarsawMap({
       });
       mapRef.current = map;
       map.addControl(new NavigationControl({ showCompass: false }), "top-right");
+      map.on("dragstart", () => { userMovedRef.current = true; });
+      map.on("zoomstart", () => { userMovedRef.current = true; });
+      map.on("moveend", () => {
+        if (!userMovedRef.current) return;
+        userMovedRef.current = false;
+        const nextCenter = map.getCenter();
+        onMapMove({ lat: nextCenter.lat, lng: nextCenter.lng });
+      });
 
       const canvas = map.getCanvas();
       canvas.setAttribute("aria-label", "Interaktywna mapa Warszawy. Użyj strzałek, aby przesuwać mapę, oraz przycisków powiększenia.");
@@ -163,8 +175,9 @@ export function GeographicWarsawMap({
           .addTo(map);
       });
 
-      if (!bounds.isEmpty()) {
+      if (!bounds.isEmpty() && !hasFittedRef.current) {
         map.fitBounds(bounds, { padding: { top: 180, right: 70, bottom: 250, left: 70 }, maxZoom: 16, duration: 0 });
+        hasFittedRef.current = true;
       }
       map.resize();
     });

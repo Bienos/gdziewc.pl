@@ -18,7 +18,7 @@ export default function Home() {
 
       <LocationExperience />
 
-      <p className="map-shell__caption">WARSZAWA NIE TRZYMA. MY SZUKAMY.</p>
+      <p className="map-shell__caption">TY W POTRZEBIE. MY SZUKAMY.</p>
       <p className="map-shell__attribution">Dane: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a></p>
     </main>
   );

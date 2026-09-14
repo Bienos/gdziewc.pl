@@ -172,6 +172,11 @@ Outcome: the initial landing page clearly explains the product and the active
 mobile map prioritises the best toilet and navigation over simultaneous controls
 and overlapping markers.
 
+### TASK-035 — Map-area search and mobile landing refinement
+
+Outcome: users can browse all nearby toilets, deliberately refresh results after
+moving the map, and read the landing comfortably on a phone.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

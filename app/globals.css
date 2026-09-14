@@ -510,6 +510,24 @@ textarea:focus-visible {
   background: var(--signal-yellow);
 }
 
+.search-area-action {
+  position: absolute;
+  z-index: 4;
+  top: max(140px, calc(env(safe-area-inset-top) + 140px));
+  left: 50%;
+  min-height: 48px;
+  padding: 0.55rem 0.8rem;
+  border: 2px solid var(--ink-950);
+  background: var(--signal-yellow);
+  box-shadow: 3px 3px 0 var(--ink-950);
+  color: var(--ink-950);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  transform: translateX(-50%);
+}
+
 .nearby-toilet-list {
   position: absolute;
   z-index: 3;
@@ -989,8 +1007,9 @@ textarea:focus-visible {
 
 .start-card--idle {
   top: max(84px, calc(env(safe-area-inset-top) + 84px));
-  bottom: auto;
-  min-height: min(34rem, calc(100dvh - 7rem));
+  bottom: max(var(--space-5), calc(env(safe-area-inset-bottom) + var(--space-3)));
+  min-height: 0;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -1030,6 +1049,14 @@ textarea:focus-visible {
   font-weight: 900;
   letter-spacing: 0.04em;
   gap: var(--space-2);
+}
+
+@media (max-height: 760px) {
+  .start-card--idle::after { top: 1.1rem; width: 6.5rem; }
+  .start-card--idle h1 { font-size: clamp(2.7rem, 13vw, 4rem); }
+  .start-card__steps { margin-top: var(--space-3); }
+  .start-card__steps li { min-height: 30px; }
+  .start-card__hint { display: none; }
 }
 
 .start-card__steps b {

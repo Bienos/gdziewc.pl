@@ -294,6 +294,13 @@
 - The recommendation preview now gives a direct route into details and navigation.
 - Lint, typecheck, production build and the focused location/manual-map browser checks passed.
 
+## TASK-035 map-area search and mobile landing observed on 2026-09-14
+
+- All fetched toilets are now shown around the map by default. After a user drags or zooms the map, `SZUKAJ W TYM OBSZARZE` searches from the visible centre through the existing bounded nearby API.
+- The landing card now scrolls within a short mobile viewport and the public caption reads `TY W POTRZEBIE. MY SZUKAMY.`
+- Photo support remains deliberately deferred until a licensed source or explicit user-photo submission/moderation flow is chosen.
+- Lint, typecheck and the production build passed.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.

@@ -126,8 +126,6 @@ test("location is requested only after the action and success stays private", as
   await expect(preview).toContainText("STATUS NIEZNANY");
   await expect(preview).toContainText("ZA DARMO");
   await expect(preview).toContainText("DANE DO POTWIERDZENIA");
-  await expect(page.getByTestId("toilet-marker")).toHaveCount(1);
-  await page.getByRole("button", { name: "PUNKTY" }).click();
   await expect(page.getByTestId("toilet-marker")).toHaveCount(2);
   await expect(page.getByTestId("toilet-marker").first()).toHaveAttribute("data-recommended", "true");
   await expect(page.getByTestId("toilet-marker").first()).toHaveAccessibleName(/polecany/);

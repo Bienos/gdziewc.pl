@@ -53,7 +53,7 @@ export function LocationExperience() {
   const [searchRadiusMeters, setSearchRadiusMeters] = useState(INITIAL_RADIUS_METERS);
   const [manualMapActive, setManualMapActive] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [showAllMarkers, setShowAllMarkers] = useState(false);
+  const [mapSearchCenter, setMapSearchCenter] = useState<BrowserPosition | null>(null);
   const message = messageForLocationStatus(status);
   const filteredToilets = filterToilets(toilets, filters);
   const recommendedToilet = filteredToilets.find((toilet) => toilet.isRecommended) ?? filteredToilets[0] ?? null;
@@ -67,7 +67,7 @@ export function LocationExperience() {
     setResultView("map");
     setFilters(DEFAULT_TOILET_FILTERS);
     setFiltersOpen(false);
-    setShowAllMarkers(false);
+    setMapSearchCenter(null);
     setSearchRadiusMeters(radiusMeters);
     try {
       const response = await fetch("/api/toilets/nearby", {
@@ -102,7 +102,7 @@ export function LocationExperience() {
     setResultView("map");
     setFilters(DEFAULT_TOILET_FILTERS);
     setFiltersOpen(false);
-    setShowAllMarkers(false);
+    setMapSearchCenter(null);
     setSearchRadiusMeters(INITIAL_RADIUS_METERS);
     setManualMapActive(false);
     trackAnalyticsEvent({ name: "location_requested" });
@@ -145,7 +145,7 @@ export function LocationExperience() {
     setPosition(null);
     setManualMapActive(true);
     setFiltersOpen(false);
-    setShowAllMarkers(false);
+    setMapSearchCenter(null);
     void loadNearby(browsePosition, 10_000);
   }
 
@@ -164,7 +164,7 @@ export function LocationExperience() {
   }
 
   const nextExpandedRadius = EXPANDED_RADII_METERS.find((radius) => radius > searchRadiusMeters) ?? null;
-  const mapToilets = showAllMarkers ? filteredToilets : (recommendedToilet ? [recommendedToilet] : []);
+  const mapToilets = filteredToilets;
 
   return (
     <>
@@ -175,6 +175,7 @@ export function LocationExperience() {
         toilets={mapToilets}
         selectedId={selectedId}
         onSelect={setSelectedId}
+        onMapMove={(center) => setMapSearchCenter({ latitude: center.lat, longitude: center.lng, accuracy: 0 })}
       />
 
       {selectedToilet ? (
@@ -214,13 +215,6 @@ export function LocationExperience() {
             <button type="button" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>FILTRY</button>
             <button
               type="button"
-              aria-pressed={showAllMarkers}
-              onClick={() => setShowAllMarkers((shown) => !shown)}
-            >
-              {showAllMarkers ? "MNIEJ" : "PUNKTY"}
-            </button>
-            <button
-              type="button"
               aria-pressed={resultView === "list"}
               onClick={() => {
                 const nextView = resultView === "map" ? "list" : "map";
@@ -231,6 +225,7 @@ export function LocationExperience() {
               {resultView === "map" ? "LISTA" : "MAPA"}
             </button>
           </div>
+          {mapSearchCenter && resultView === "map" ? <button className="search-area-action" type="button" onClick={() => { void loadNearby(mapSearchCenter, searchRadiusMeters); setMapSearchCenter(null); }}>SZUKAJ W TYM OBSZARZE</button> : null}
           {filtersOpen ? <NearbyToiletFilters
             filters={filters}
             matchCount={filteredToilets.length}
