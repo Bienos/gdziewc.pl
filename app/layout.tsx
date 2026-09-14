@@ -4,21 +4,21 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gdziekibel.pl"),
-  title: "GdzieKibel.pl — znajdź publiczną toaletę w Warszawie",
-  description: "Znajdź najbliższą publiczną toaletę w Warszawie. Sprawdź odległość, godziny, cenę i dostępność bez zapisywania swojej lokalizacji.",
+  title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz",
+  description: "GdzieKibel.pl szybko znajdzie Ci pobliski kibel w Warszawie — bez zapisywania Twojej lokalizacji.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "pl_PL",
     url: "/",
     siteName: "GdzieKibel.pl",
-    title: "GdzieKibel.pl — toalety publiczne w Warszawie",
-    description: "Warszawa nie trzyma. Znajdź najbliższą publiczną toaletę szybko i bez zapisywania lokalizacji.",
+    title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz",
+    description: "GdzieKibel.pl szybko znajdzie Ci pobliski kibel w Warszawie — bez zapisywania Twojej lokalizacji.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GdzieKibel.pl — toalety publiczne w Warszawie",
-    description: "Znajdź najbliższy kibel w Warszawie — szybko i prywatnie.",
+    title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz",
+    description: "GdzieKibel.pl szybko znajdzie Ci pobliski kibel w Warszawie — bez zapisywania Twojej lokalizacji.",
   },
 };
 

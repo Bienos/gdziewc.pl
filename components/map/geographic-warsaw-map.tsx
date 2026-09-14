@@ -178,7 +178,11 @@ export function GeographicWarsawMap({
       });
 
       if (!bounds.isEmpty() && !hasFittedRef.current) {
-        map.fitBounds(bounds, { padding: { top: 180, right: 70, bottom: 250, left: 70 }, maxZoom: 16, duration: 0 });
+        if (userLocation) {
+          map.easeTo({ center: [userLocation.lng, userLocation.lat], zoom: 16, duration: 0 });
+        } else {
+          map.fitBounds(bounds, { padding: { top: 180, right: 70, bottom: 250, left: 70 }, maxZoom: 16, duration: 0 });
+        }
         hasFittedRef.current = true;
       }
       map.resize();
@@ -194,7 +198,7 @@ export function GeographicWarsawMap({
     if (!map || !visible || !userLocation || focusLocation === 0) return;
     map.easeTo({
       center: [userLocation.lng, userLocation.lat],
-      zoom: Math.max(map.getZoom(), 15),
+      zoom: Math.max(map.getZoom(), 16),
       duration: 250,
     });
   }, [focusLocation, userLocation, visible]);

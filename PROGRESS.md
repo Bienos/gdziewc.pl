@@ -321,6 +321,12 @@
 - `TU JESTEM` returns the map to that last browser-provided coordinate at a usable zoom. It makes neither a new geolocation request nor a nearby API request, and the existing area-search flow remains unchanged.
 - Focused Playwright location coverage, lint, typecheck and production build passed. Precise coordinates remain only in component memory.
 
+## TASK-040 share preview and local map zoom observed on 2026-09-14
+
+- Document, Open Graph and social-card titles now read `GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz`; the generated sharing image matches with `ZNAJDŹ KIBEL. SZYBKO.` and `ZANIM SIĘ ZESRASZ.`
+- A successful browser-location map now centres on the user at zoom 16 rather than fitting the full result radius. `TU JESTEM` uses the same minimum zoom; nearby results remain loaded and location remains in component memory.
+- Lint, typecheck, production build and the focused SEO Playwright check passed.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.
