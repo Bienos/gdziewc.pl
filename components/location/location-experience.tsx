@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { GeographicWarsawMap } from "@/components/map/geographic-warsaw-map";
 import { NearestToiletPreview } from "@/components/map/nearest-toilet-preview";
 import { NearbyToiletList } from "@/components/map/nearby-toilet-list";
@@ -26,12 +26,12 @@ import { isWithinWarsawSupportedArea } from "@/lib/location/warsaw-service-area"
 import { trackAnalyticsEvent } from "@/lib/analytics/events";
 import { trackSafeError } from "@/lib/observability/errors";
 import { WARSAW_MAP_CENTER } from "@/lib/map/config";
-
-interface BrowserPosition {
-  latitude: number;
-  longitude: number;
-  accuracy: number;
-}
+import {
+  browserPositionFromCoordinates,
+  shouldAcceptWatchedPosition,
+  shouldRefreshNearbyForPosition,
+  type BrowserPosition,
+} from "@/lib/location/browser-position";
 
 type SearchStatus = "idle" | "loading" | "success" | "empty" | "error";
 type ResultView = "map" | "list";
@@ -56,17 +56,23 @@ export function LocationExperience() {
   const [mapSearchCenter, setMapSearchCenter] = useState<BrowserPosition | null>(null);
   const [previewDismissed, setPreviewDismissed] = useState(false);
   const [locationFocusRequest, setLocationFocusRequest] = useState(0);
+  const locationWatchIdRef = useRef<number | null>(null);
+  const positionRef = useRef<BrowserPosition | null>(null);
+  const nearbyPositionRef = useRef<BrowserPosition | null>(null);
+  const searchRadiusRef = useRef(INITIAL_RADIUS_METERS);
   const message = messageForLocationStatus(status);
   const filteredToilets = filterToilets(toilets, filters);
   const recommendedToilet = filteredToilets.find((toilet) => toilet.isRecommended) ?? filteredToilets[0] ?? null;
   const selectedToilet = filteredToilets.find((toilet) => toilet.id === selectedId) ?? null;
   const hasActiveMap = status === "success" || manualMapActive;
   const userMapLocation = useMemo(
-    () => status === "success" && position ? { lat: position.latitude, lng: position.longitude } : null,
+    () => status === "success" && position ? { lat: position.latitude, lng: position.longitude, accuracy: position.accuracy } : null,
     [position, status],
   );
 
   async function loadNearby(nextPosition: BrowserPosition, radiusMeters = INITIAL_RADIUS_METERS) {
+    nearbyPositionRef.current = nextPosition;
+    searchRadiusRef.current = radiusMeters;
     setSearchStatus("loading");
     setToilets([]);
     setPreviewDismissed(false);
@@ -113,6 +119,10 @@ export function LocationExperience() {
     setMapSearchCenter(null);
     setSearchRadiusMeters(INITIAL_RADIUS_METERS);
     setManualMapActive(false);
+    if (locationWatchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(locationWatchIdRef.current);
+      locationWatchIdRef.current = null;
+    }
     trackAnalyticsEvent({ name: "location_requested" });
 
     if (!("geolocation" in navigator)) {
@@ -123,11 +133,8 @@ export function LocationExperience() {
 
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        const nextPosition = {
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-          accuracy: coords.accuracy,
-        };
+        const nextPosition = browserPositionFromCoordinates(coords);
+        positionRef.current = nextPosition;
         setPosition(nextPosition);
         if (!isWithinWarsawSupportedArea(nextPosition)) {
           setStatus("outside_warsaw");
@@ -135,6 +142,25 @@ export function LocationExperience() {
         }
         setStatus("success");
         void loadNearby(nextPosition);
+        locationWatchIdRef.current = navigator.geolocation.watchPosition(
+          ({ coords: watchedCoordinates }) => {
+            const watchedPosition = browserPositionFromCoordinates(watchedCoordinates);
+            const previousPosition = positionRef.current;
+            if (!previousPosition || !shouldAcceptWatchedPosition(previousPosition, watchedPosition)) return;
+
+            positionRef.current = watchedPosition;
+            setPosition(watchedPosition);
+            if (!isWithinWarsawSupportedArea(watchedPosition)) return;
+            const nearbyPosition = nearbyPositionRef.current;
+            if (nearbyPosition && shouldRefreshNearbyForPosition(nearbyPosition, watchedPosition)) {
+              void loadNearby(watchedPosition, searchRadiusRef.current);
+            }
+          },
+          () => {
+            // The first accepted reading remains useful if later GPS updates fail.
+          },
+          { enableHighAccuracy: true, timeout: 20_000, maximumAge: 0 },
+        );
       },
       (error) => {
         setPosition(null);
@@ -144,6 +170,10 @@ export function LocationExperience() {
     );
   }
 
+  useEffect(() => () => {
+    if (locationWatchIdRef.current !== null) navigator.geolocation.clearWatch(locationWatchIdRef.current);
+  }, []);
+
   function openManualWarsawMap() {
     const browsePosition = {
       latitude: WARSAW_MAP_CENTER.lat,
@@ -151,6 +181,8 @@ export function LocationExperience() {
       accuracy: 0,
     };
     setPosition(null);
+    positionRef.current = null;
+    nearbyPositionRef.current = null;
     setManualMapActive(true);
     setFiltersOpen(false);
     setMapSearchCenter(null);

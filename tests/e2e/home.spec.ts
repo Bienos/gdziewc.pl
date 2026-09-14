@@ -6,6 +6,8 @@ test.beforeEach(async ({ page }) => mockMapProvider(page));
 declare global {
   interface Window {
     __geoCalls: number;
+    __geoWatchCalls: number;
+    __emitWatchedPosition: (accuracy: number) => void;
   }
 }
 
@@ -80,6 +82,8 @@ test("location is requested only after the action and success stays private", as
   });
   await page.addInitScript(() => {
     Object.defineProperty(window, "__geoCalls", { value: 0, writable: true });
+    Object.defineProperty(window, "__geoWatchCalls", { value: 0, writable: true });
+    let watcher: PositionCallback | null = null;
     navigator.geolocation.getCurrentPosition = (success) => {
       window.__geoCalls += 1;
       success({
@@ -97,6 +101,26 @@ test("location is requested only after the action and success stays private", as
         toJSON: () => ({}),
       });
     };
+    navigator.geolocation.watchPosition = (success) => {
+      window.__geoWatchCalls += 1;
+      watcher = success;
+      return 27;
+    };
+    navigator.geolocation.clearWatch = () => {};
+    window.__emitWatchedPosition = (accuracy) => watcher?.({
+      coords: {
+        latitude: 52.22971234,
+        longitude: 21.01221234,
+        accuracy,
+        altitude: null,
+        altitudeAccuracy: null,
+        heading: null,
+        speed: null,
+        toJSON: () => ({}),
+      },
+      timestamp: Date.now(),
+      toJSON: () => ({}),
+    });
   });
 
   await page.goto("/");
@@ -117,7 +141,12 @@ test("location is requested only after the action and success stays private", as
   await locationAction.click();
 
   expect(await page.evaluate(() => window.__geoCalls)).toBe(1);
+  expect(await page.evaluate(() => window.__geoWatchCalls)).toBe(1);
   await expect(page.getByTestId("user-location")).toBeVisible();
+  await expect(page.getByTestId("user-location")).toHaveAccessibleName(/dokładność około 24 metrów/);
+  await page.evaluate(() => window.__emitWatchedPosition(12));
+  await expect(page.getByTestId("user-location")).toHaveAccessibleName(/dokładność około 12 metrów/);
+  expect(nearbyRequests).toBe(1);
   await expect(page.getByTestId("geographic-map")).toBeVisible();
   await expect(page.getByRole("region", { name: "Interaktywna mapa Warszawy. Użyj strzałek, aby przesuwać mapę, oraz przycisków powiększenia." })).toBeVisible();
   await expect(page.getByRole("button", { name: "Powiększ mapę" })).toBeVisible();

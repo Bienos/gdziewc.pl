@@ -284,6 +284,7 @@ textarea:focus-visible {
   height: 72px;
   place-items: center;
   transform: translate(-50%, -50%);
+  --user-location-halo-size: 72px;
 }
 
 .user-location__halo,
@@ -293,8 +294,8 @@ textarea:focus-visible {
 }
 
 .user-location__halo {
-  width: 72px;
-  height: 72px;
+  width: var(--user-location-halo-size);
+  height: var(--user-location-halo-size);
   background: rgba(22, 119, 255, 0.24);
   border: 2px solid rgba(22, 119, 255, 0.5);
 }

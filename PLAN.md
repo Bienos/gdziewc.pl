@@ -217,6 +217,11 @@ Outcome: the user-approved street-poster artwork becomes the actual shared-link 
 
 Outcome: each consenting visitor uses a fresh personal location and can always return to it while browsing the map.
 
+### TASK-046 — Location accuracy and live update
+
+Outcome: after consent, the map follows newer private GPS readings and clearly
+shows the browser-reported precision instead of implying false exactness.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

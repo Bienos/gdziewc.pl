@@ -12,6 +12,7 @@ import {
 interface Coordinate {
   lat: number;
   lng: number;
+  accuracy?: number;
 }
 
 interface GeographicWarsawMapProps {
@@ -54,12 +55,12 @@ function markerButton(toilet: NearbyToilet, index: number, selectedId: string | 
   return wrapper;
 }
 
-function userLocationElement() {
+function userLocationElement(accuracyMeters: number) {
   const element = document.createElement("div");
   element.className = "user-location user-location--geographic";
   element.dataset.testid = "user-location";
   element.setAttribute("role", "img");
-  element.setAttribute("aria-label", "Twoja przybliżona lokalizacja");
+  element.setAttribute("aria-label", `Twoja przybliżona lokalizacja, dokładność około ${Math.round(accuracyMeters)} metrów`);
 
   const halo = document.createElement("span");
   halo.className = "user-location__halo";
@@ -67,6 +68,13 @@ function userLocationElement() {
   dot.className = "user-location__dot";
   element.append(halo, dot);
   return element;
+}
+
+function setUserLocationAccuracyRadius(map: MapLibreMap, marker: MapLibreMarker | null, location: Coordinate | null) {
+  if (!marker || !location?.accuracy) return;
+  const metersPerPixel = (156543.03392 * Math.cos((location.lat * Math.PI) / 180)) / (2 ** map.getZoom());
+  const diameter = Math.min(240, Math.max(48, (location.accuracy / metersPerPixel) * 2));
+  marker.getElement().style.setProperty("--user-location-halo-size", `${Math.round(diameter)}px`);
 }
 
 export function GeographicWarsawMap({
@@ -167,9 +175,10 @@ export function GeographicWarsawMap({
       const bounds = new LngLatBounds();
 
       if (userLocation) {
-        userMarkerRef.current = new Marker({ element: userLocationElement(), anchor: "center" })
+        userMarkerRef.current = new Marker({ element: userLocationElement(userLocation.accuracy ?? 1), anchor: "center" })
           .setLngLat([userLocation.lng, userLocation.lat])
           .addTo(map);
+        setUserLocationAccuracyRadius(map, userMarkerRef.current, userLocation);
         bounds.extend([userLocation.lng, userLocation.lat]);
       }
 
@@ -191,6 +200,17 @@ export function GeographicWarsawMap({
       map.resize();
     });
   }, [loaded, onSelect, selectedId, toilets, userLocation, visible]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !loaded || !userLocation) return;
+    const updateAccuracyRadius = () => setUserLocationAccuracyRadius(map, userMarkerRef.current, userLocation);
+    map.on("zoom", updateAccuracyRadius);
+    updateAccuracyRadius();
+    return () => {
+      map.off("zoom", updateAccuracyRadius);
+    };
+  }, [loaded, userLocation]);
 
   useEffect(() => {
     if (visible) mapRef.current?.resize();

@@ -238,6 +238,26 @@
 - Final production map tile provider.
 - Final analytics provider.
 - Real-data deduplication thresholds.
+
+## TASK-046 verification observed on 2026-09-14
+
+- A location watch now begins only after an explicit, successful browser
+  location action, uses high accuracy with no cached reading, and is removed on
+  a new explicit request or component teardown.
+- A later reading updates the private in-memory marker only when it is
+  materially more accurate or outside the combined reported uncertainty; normal
+  GPS jitter does not make the marker jump.
+- Nearby results refresh only after a material movement beyond the reported
+  uncertainty and 60m floor. Precise coordinates remain absent from storage,
+  analytics and third-party requests.
+- The blue halo now scales from browser-reported accuracy at the current map
+  zoom and its accessible label states the approximate precision. Map panning
+  remains geographic: it moves the viewport beneath the fixed real-world
+  coordinate rather than changing the saved device point.
+- Focused browser coverage verified the private watch, a more accurate follow-up
+  reading and no redundant nearby request. The complete Playwright suite passed:
+  11 Chromium tests. New position utility coverage passed: 3 tests.
+- `npm run lint`, `npm run typecheck`, and `npm run build` passed.
 - Staging Vercel WAF rules and managed-database TLS/least-privilege verification.
 
 ## TASK-029 verification observed on 2026-09-14
