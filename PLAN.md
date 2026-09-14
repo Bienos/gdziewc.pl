@@ -201,6 +201,10 @@ Outcome: shared links use the product's real message and accepted locations open
 
 Outcome: the live share card reliably loads the branded image and the logo restarts the landing flow.
 
+### TASK-042 — Poster-style share card
+
+Outcome: shared links carry a distinctive street-poster card aligned with the campaign reference.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:
