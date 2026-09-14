@@ -185,6 +185,10 @@ Outcome: the nearest-toilet preview can be closed when it obscures map browsing.
 
 Outcome: the map pans with one finger and zooms using standard touch and mouse-wheel gestures.
 
+### TASK-038 — Map attribution and contextual copy cleanup
+
+Outcome: one unobtrusive map attribution, landing-only campaign copy and clearer area-search wording.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

@@ -1238,9 +1238,20 @@ button.manual-map-action {
   color: inherit;
 }
 
-.map-shell:has(.start-card--idle) .map-shell__attribution,
-.map-shell:has(.start-card--idle) .map-shell__caption {
+.map-shell:not(:has(.start-card--idle)) .map-shell__caption {
   display: none;
+}
+
+.geographic-map .maplibregl-ctrl-bottom-right {
+  right: var(--space-2);
+  bottom: max(var(--space-2), env(safe-area-inset-bottom));
+}
+
+.geographic-map .maplibregl-ctrl-attrib {
+  max-width: 12rem;
+  padding: 2px 4px;
+  background: rgba(245, 242, 234, 0.88);
+  font-size: 8px;
 }
 
 @media (min-width: 700px) {

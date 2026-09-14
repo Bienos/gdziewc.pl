@@ -228,7 +228,7 @@ export function LocationExperience() {
               {resultView === "map" ? "LISTA" : "MAPA"}
             </button>
           </div>
-          {mapSearchCenter && resultView === "map" ? <button className="search-area-action" type="button" onClick={() => { void loadNearby(mapSearchCenter, searchRadiusMeters); setMapSearchCenter(null); }}>SZUKAJ W TYM OBSZARZE</button> : null}
+          {mapSearchCenter && resultView === "map" ? <button className="search-area-action" type="button" onClick={() => { void loadNearby(mapSearchCenter, searchRadiusMeters); setMapSearchCenter(null); }}>ZNAJDŹ KIBEL W TEJ OKOLICY</button> : null}
           {filtersOpen ? <NearbyToiletFilters
             filters={filters}
             matchCount={filteredToilets.length}

@@ -310,6 +310,11 @@
 
 - Standard MapLibre gestures are enabled: one-finger touch panning and mouse-wheel zoom. Typecheck and production build passed.
 
+## TASK-038 map attribution and copy cleanup observed on 2026-09-14
+
+- Removed the redundant application-level OSM credit. The map retains one compact provider attribution; the campaign caption only appears on the first screen.
+- Area refresh now reads `ZNAJDŹ KIBEL W TEJ OKOLICY`. Lint, typecheck and production build passed.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.
