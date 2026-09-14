@@ -1,6 +1,6 @@
 # TASK-042 — Poster-style share card
 
-**Status:** In progress
+**Status:** Complete
 
 ## Goal
 
@@ -10,12 +10,12 @@ campaign-style copy.
 
 ## Acceptance criteria
 
-- [ ] The card uses the supplied poster as stylistic direction, not as a
+- [x] The card uses the supplied poster as stylistic direction, not as a
       copied image asset.
-- [ ] `LEPIEJ ZNALEŹĆ KIBEL NIŻ SIĘ ZESRAĆ!` is the large dominant message.
-- [ ] `GDZIEKIBEL.PL` appears prominently on a yellow tape-like label.
-- [ ] The 1200×630 generated Open Graph PNG remains readable and valid.
-- [ ] Lint, typecheck, production build and visual public-image verification
+- [x] `LEPIEJ ZNALEŹĆ KIBEL NIŻ SIĘ ZESRAĆ!` is the large dominant message.
+- [x] `GDZIEKIBEL.PL` appears prominently on a yellow tape-like label.
+- [x] The 1200×630 generated Open Graph PNG remains readable and valid.
+- [x] Lint, typecheck, production build and visual public-image verification
       pass.
 
 ## In scope

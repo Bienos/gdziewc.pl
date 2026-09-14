@@ -333,6 +333,11 @@
 - The document, Open Graph and social title now end in an exclamation mark. The header brand is a link to `/`, which resets the in-memory landing experience.
 - Lint, typecheck, production build and focused SEO/home Playwright checks passed. No user location is present in metadata or URLs.
 
+## TASK-042 poster-style share card observed on 2026-09-14
+
+- The generated 1200×630 sharing image now follows the supplied street-poster direction without copying the reference: torn-looking paper side strips, black poster field, skewed hot-pink `LEPIEJ ZNALEŹĆ KIBEL NIŻ SIĘ ZESRAĆ!`, yellow `GDZIEKIBEL.PL` tape and small Warsaw label.
+- Lint, typecheck, production build and focused SEO browser check passed. The deployed `/opengraph-image` PNG was fetched and visually inspected from the live alias.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.
