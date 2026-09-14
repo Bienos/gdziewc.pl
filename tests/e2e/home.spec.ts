@@ -418,6 +418,55 @@ test("location flow fits a 320px-wide mobile viewport", async ({ page }) => {
   await expect(page.getByRole("button", { name: "GDZIE JESTEM" })).toBeInViewport();
 });
 
+test("separate visitors keep separate private browser locations", async ({ browser }) => {
+  async function openVisitor(latitude: number, longitude: number, accuracy: number) {
+    const context = await browser.newContext();
+    await context.addInitScript(({ latitude: lat, longitude: lng, accuracy: positionAccuracy }) => {
+      navigator.geolocation.getCurrentPosition = (success) => success({
+        coords: {
+          latitude: lat,
+          longitude: lng,
+          accuracy: positionAccuracy,
+          altitude: null,
+          altitudeAccuracy: null,
+          heading: null,
+          speed: null,
+          toJSON: () => ({}),
+        },
+        timestamp: Date.now(),
+        toJSON: () => ({}),
+      });
+      navigator.geolocation.watchPosition = () => 1;
+      navigator.geolocation.clearWatch = () => {};
+    }, { latitude, longitude, accuracy });
+    const page = await context.newPage();
+    await mockMapProvider(page);
+    let nearbyBody = "";
+    await page.route("**/api/toilets/nearby", (route) => {
+      nearbyBody = route.request().postData() ?? "";
+      return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ results: [] }) });
+    });
+    await page.goto("/");
+    await page.getByRole("button", { name: "GDZIE JESTEM" }).click();
+    await expect(page.getByTestId("user-location")).toHaveAccessibleName(new RegExp(`dokładność około ${accuracy} metrów`));
+    return { context, page, nearbyBody: () => nearbyBody };
+  }
+
+  const first = await openVisitor(52.2297, 21.0122, 12);
+  const second = await openVisitor(52.2066, 21.1567, 48);
+
+  expect(first.nearbyBody()).toContain("52.2297");
+  expect(first.nearbyBody()).not.toContain("52.2066");
+  expect(second.nearbyBody()).toContain("52.2066");
+  expect(second.nearbyBody()).not.toContain("52.2297");
+  await expect(first.page).toHaveTitle(/GdzieKibel\.pl/);
+  await expect(second.page).toHaveTitle(/GdzieKibel\.pl/);
+  expect(await first.page.evaluate(() => `${JSON.stringify(localStorage)}${JSON.stringify(sessionStorage)}`)).toBe("{}{}");
+  expect(await second.page.evaluate(() => `${JSON.stringify(localStorage)}${JSON.stringify(sessionStorage)}`)).toBe("{}{}");
+  await first.context.close();
+  await second.context.close();
+});
+
 test("detail sheet fits a 320px-wide mobile viewport", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await page.route("**/api/toilets/nearby", (route) => route.fulfill({

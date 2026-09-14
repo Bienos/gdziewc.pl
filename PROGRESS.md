@@ -282,6 +282,18 @@
 - Focused Playwright geometry coverage passed at a 1366×540 wide, shallow
   viewport; the existing 320px mobile flow remains covered. `npm run lint`,
   `npm run typecheck`, and `npm run build` passed.
+
+## TASK-049 verification observed on 2026-09-14
+
+- The off-screen recovery action now reads `WRÓĆ DO MOJEJ LOKALIZACJI`, making
+  clear that it returns to the visitor's own point rather than a generic map
+  marker. It still uses the existing private coordinate and does not make a
+  new GPS request.
+- A focused Playwright test opened two fully separate browser sessions with
+  distinct browser-provided positions. Each nearby request contained only that
+  session's own point, each marker exposed its own reported accuracy, and both
+  local/session storage objects remained empty.
+- `npm run lint`, `npm run typecheck`, and `npm run build` passed.
 - Staging Vercel WAF rules and managed-database TLS/least-privilege verification.
 
 ## TASK-029 verification observed on 2026-09-14

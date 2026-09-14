@@ -232,6 +232,11 @@ reading when their current point appears wrong.
 Outcome: map controls remain clear and comfortably spaced on wide, shallow
 screens as well as the primary mobile view.
 
+### TASK-049 — Private location isolation and recovery copy
+
+Outcome: independent visitors keep independent private locations, and the map
+uses clear copy to return to a visitor's own point.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

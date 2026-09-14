@@ -266,7 +266,7 @@ export function GeographicWarsawMap({
       <div className="geographic-map__canvas" ref={containerRef} />
       {locationOutOfView ? (
         <button className="offscreen-location-action" type="button" onClick={onRequestFocus} data-testid="offscreen-location-action">
-          <span aria-hidden="true" />POKAŻ MOJĄ KROPKĘ
+          <span aria-hidden="true" />WRÓĆ DO MOJEJ LOKALIZACJI
         </button>
       ) : null}
       {!loaded && !failed ? <p className="geographic-map__status" role="status">ŁADUJĘ MAPĘ ULIC…</p> : null}
