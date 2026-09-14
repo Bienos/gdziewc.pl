@@ -258,6 +258,18 @@
   reading and no redundant nearby request. The complete Playwright suite passed:
   11 Chromium tests. New position utility coverage passed: 3 tests.
 - `npm run lint`, `npm run typecheck`, and `npm run build` passed.
+
+## TASK-047 verification observed on 2026-09-14
+
+- The post-location map toolbar now exposes `ODŚWIEŻ GPS`, a literal user action
+  that starts one new high-accuracy, no-cache browser reading and refreshes the
+  nearby result set from it.
+- The recovery action for a location outside the viewport remains a map-only
+  recenter control; it does not make another geolocation request.
+- Focused Playwright coverage verified a second explicit GPS request, a
+  replacement private watch and a second nearby request. The existing 320px
+  responsive location-flow coverage continues to include the toolbar.
+- `npm run lint`, `npm run typecheck`, and `npm run build` passed.
 - Staging Vercel WAF rules and managed-database TLS/least-privilege verification.
 
 ## TASK-029 verification observed on 2026-09-14

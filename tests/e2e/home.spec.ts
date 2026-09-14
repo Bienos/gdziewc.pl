@@ -151,11 +151,12 @@ test("location is requested only after the action and success stays private", as
   await expect(page.getByRole("region", { name: "Interaktywna mapa Warszawy. Użyj strzałek, aby przesuwać mapę, oraz przycisków powiększenia." })).toBeVisible();
   await expect(page.getByRole("button", { name: "Powiększ mapę" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Pomniejsz mapę" })).toBeVisible();
-  const recenterLocation = page.getByRole("button", { name: "Pokaż moją lokalizację na mapie" });
-  await expect(recenterLocation).toBeVisible();
-  await recenterLocation.click();
-  expect(await page.evaluate(() => window.__geoCalls)).toBe(1);
-  expect(nearbyRequests).toBe(1);
+  const refreshLocation = page.getByRole("button", { name: "Odśwież moją lokalizację GPS" });
+  await expect(refreshLocation).toBeVisible();
+  await refreshLocation.click();
+  expect(await page.evaluate(() => window.__geoCalls)).toBe(2);
+  expect(await page.evaluate(() => window.__geoWatchCalls)).toBe(2);
+  expect(nearbyRequests).toBe(2);
   await expect(page.getByRole("button", { name: "ODŚWIEŻ LOKALIZACJĘ" })).toBeVisible();
   const preview = page.getByTestId("nearest-preview");
   await expect(preview).toContainText("Toaleta przy Marszałkowskiej");

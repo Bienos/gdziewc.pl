@@ -264,10 +264,10 @@ export function LocationExperience() {
               <button
                 className="map-toolbar__location"
                 type="button"
-                aria-label="Pokaż moją lokalizację na mapie"
-                onClick={focusUserLocation}
+                aria-label="Odśwież moją lokalizację GPS"
+                onClick={requestLocation}
               >
-                TU JESTEM
+                ODŚWIEŻ GPS
               </button>
             ) : null}
             <button type="button" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>FILTRY</button>
