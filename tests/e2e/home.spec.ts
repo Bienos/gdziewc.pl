@@ -168,7 +168,7 @@ test("location is requested only after the action and success stays private", as
   const preview = page.getByTestId("nearest-preview");
   await expect(preview).toContainText("Toaleta przy Marszałkowskiej");
   await expect(preview).toContainText("92 M");
-  await expect(preview).toContainText("~2 MIN PIESZO");
+  await expect(preview).toContainText("~2 MIN");
   await expect(preview).toContainText("STATUS NIEZNANY");
   await expect(preview).toContainText("ZA DARMO");
   await expect(preview).toContainText("DANE DO POTWIERDZENIA");
@@ -203,7 +203,7 @@ test("location is requested only after the action and success stays private", as
   await expect(detailSheet).toContainText("DZIĘKI — SPRAWDZIMY TO.");
   expect(JSON.parse(reportBody)).toEqual({ toiletId: "2ccedcee-72da-4a77-a0bc-cd6dcb98d760", issueType: "hours", note: "Godziny są nieaktualne" });
   const navigationLink = page.getByTestId("walking-navigation-link");
-  await expect(navigationLink).toHaveText("PROWADŹ MNIE");
+  await expect(navigationLink).toHaveText("PROWADŹ →");
   await expect(navigationLink).toHaveAttribute("target", "_blank");
   await expect(navigationLink).toHaveAttribute("rel", "noopener noreferrer");
   const destination = new URL(await navigationLink.getAttribute("href") ?? "");

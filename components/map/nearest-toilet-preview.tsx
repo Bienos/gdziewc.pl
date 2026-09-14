@@ -26,12 +26,11 @@ export function NearestToiletPreview({
   return (
     <section className="nearest-preview" data-testid="nearest-preview" aria-labelledby="nearest-preview-title">
       <button className="nearest-preview__close" type="button" aria-label="Zamknij podgląd najbliższej toalety" onClick={onDismiss}>×</button>
-      <p className="nearest-preview__eyebrow">NAJBLIŻSZY SENSOWNY KIBEL</p>
+      <p className="nearest-preview__eyebrow">TĘDY · NAJBLIŻSZY KIBEL</p>
       <h2 id="nearest-preview-title">{toilet.name}</h2>
       <p className="nearest-preview__journey">
         <strong>{formatDistance(toilet.distanceMeters)}</strong>
-        <span>·</span>
-        <span>~{etaMinutes} MIN PIESZO</span>
+        <span>~{etaMinutes} MIN</span>
       </p>
       <div className="nearest-preview__badges" aria-label="Znane informacje">
         <span className={`preview-badge preview-badge--opening-${toilet.openingStatus}`}>
@@ -46,7 +45,7 @@ export function NearestToiletPreview({
       </p>
       {confidenceCaution ? <p className="confidence-caution">{confidenceCaution}</p> : null}
       <button className="nearest-preview__open" type="button" onClick={onOpenDetails}>
-        ZOBACZ I PROWADŹ MNIE
+        ZOBACZ · PROWADŹ →
       </button>
       <button className="nearest-preview__refresh" type="button" onClick={onRefreshLocation}>
         ODŚWIEŻ LOKALIZACJĘ

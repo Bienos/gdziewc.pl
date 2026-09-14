@@ -242,6 +242,11 @@ uses clear copy to return to a visitor's own point.
 Outcome: the map has calm, readable controls and the visible wordmark provides
 a clear reset to the streamlined landing journey.
 
+### TASK-051 — TĘDY wayfinding visual redesign
+
+Outcome: the existing live data and interactions are presented as an immediate,
+high-contrast urban wayfinding system rather than a generic map interface.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:
