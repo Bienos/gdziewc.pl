@@ -274,7 +274,18 @@
 
 ## Next approved task
 
-`TASK-033 — Production release` remains blocked until the protected browser smoke suite and a source-control revision are recorded. TASK-022 remains deferred pending a verified reusable city source.
+`TASK-033 — Production release` is complete. TASK-022 remains deferred pending a verified reusable city source. Scheduled OSM refresh and an external analytics/error sink remain post-launch operational follow-ups.
+
+## TASK-033 production release observed on 2026-09-14
+
+- Created a separate public Vercel project, `gdziekibel-live`, without changing the pre-existing `gdziekibel` site. The public URL is `https://gdziekibel-live.vercel.app`.
+- Provisioned the isolated Neon Frankfurt production resource `gdziekibel-live-db`; PostGIS 3.6.4 was confirmed, migrations `000001`–`000004` applied, and the verified snapshot created 562 toilets plus 562 OSM source records with zero rejects.
+- Created a separate restricted `gdziekibel_app` runtime role and stored its connection only as the sensitive production `DATABASE_URL` secret. The application uses that role successfully for the live nearby query.
+- Published the active Vercel firewall rule `Production public API rate limit`: fixed-window 120 requests per 60 seconds per IP across `/api/toilets/nearby`, `/api/toilet-reports`, `/api/analytics` and `/api/errors`.
+- Local release checks passed: lint, typecheck, 20 unit files/71 tests and production build. The live HTTPS homepage returned 200 with CSP, geolocation policy and HSTS; a fixed Warsaw nearby POST returned 200 with 50 results.
+- Public browser smoke passed: 2 Chromium checks covered the visible shell/security headers plus manual Warsaw map, geographic markers and list view without writing reports.
+- Healthy immutable production baseline: source revision `b9c299ecd4b1d3915d8e8a4e42a0e331e5e9cc3d`, Vercel deployment `dpl_B3oBMhh5gZ2bN8uPfaxdoeKMmCKF`. Retain that deployment as the rollback baseline for a later faulty release.
+- Scheduled OSM refresh and an external analytics/error sink remain unconfigured; OpenFreeMap remains the accepted no-SLA MVP map-provider risk.
 
 ## TASK-030 independent release review observed on 2026-09-14
 

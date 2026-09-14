@@ -1,6 +1,6 @@
 # TASK-033 — Production release
 
-**Status:** In progress  
+**Status:** Complete (production deployment and public browser smoke verified on 2026-09-14)
 **Milestone:** 5 — Release hardening
 
 ## Goal
@@ -11,17 +11,17 @@ critical user journey without exposing secrets or precise user location.
 
 ## Acceptance criteria
 
-- [ ] A dedicated public production Vercel project and HTTPS URL are recorded.
-- [ ] A separate production Neon/PostGIS database has migrations `000001`
+- [x] A dedicated public production Vercel project and HTTPS URL are recorded.
+- [x] A separate production Neon/PostGIS database has migrations `000001`
       through `000004` applied and contains the verified Warsaw snapshot.
-- [ ] The public runtime uses a restricted database role with only the read and
+- [x] The public runtime uses a restricted database role with only the read and
       insert privileges required by the application.
-- [ ] Durable edge rate limiting protects all public POST API routes.
-- [ ] The production deployment is traceable to an immutable Git revision.
-- [ ] Production homepage and nearby-toilet API checks pass over HTTPS.
-- [ ] A critical browser journey is verified publicly or any access limitation
+- [x] Durable edge rate limiting protects all public POST API routes.
+- [x] The production deployment is traceable to an immutable Git revision.
+- [x] Production homepage and nearby-toilet API checks pass over HTTPS.
+- [x] A critical browser journey is verified publicly or any access limitation
       is documented truthfully.
-- [ ] Rollback target and any remaining operational follow-ups are recorded.
+- [x] Rollback target and any remaining operational follow-ups are recorded.
 
 ## In scope
 
@@ -76,3 +76,30 @@ critical user journey without exposing secrets or precise user location.
 TASK-033 is complete when the production deployment is live, traceable and
 verified against the above criteria, with remaining operational limitations
 recorded in `PROGRESS.md`.
+
+## Release evidence
+
+- Public URL: `https://gdziekibel-live.vercel.app`
+- Vercel project: `gdziekibel-live`; healthy production deployment:
+  `dpl_B3oBMhh5gZ2bN8uPfaxdoeKMmCKF`.
+- Source revision: `b9c299ecd4b1d3915d8e8a4e42a0e331e5e9cc3d`.
+- Isolated Frankfurt Neon resource: `gdziekibel-live-db`; PostGIS 3.6.4 and
+  migrations `000001`–`000004` were verified.
+- Snapshot import created 562 toilets and 562 OSM source records with zero
+  rejected records.
+- Vercel stores the live `DATABASE_URL` as a protected secret for the
+  restricted `gdziekibel_app` runtime role.
+- Active Vercel firewall rule: 120 requests per 60 seconds per IP across the
+  four public POST routes.
+- Public checks: homepage HTTPS/security headers, a fixed Warsaw nearby request
+  returning 50 results, and two browser smoke tests covering the public shell,
+  geographic manual map, markers and list.
+- Rollback baseline: retain the healthy immutable deployment above and restore
+  it before investigating any faulty later deployment.
+
+## Remaining follow-ups
+
+- Scheduled production OSM refresh and an external analytics/error sink are not
+  configured.
+- OpenFreeMap remains the accepted MVP provider without an SLA; it can be
+  replaced through `NEXT_PUBLIC_MAP_STYLE_URL` if operational needs change.
