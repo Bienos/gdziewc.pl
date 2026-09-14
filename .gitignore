@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.next-*/
+*.tsbuildinfo
+playwright-report/
+test-results/
+public/maplibre/
+.env
+.env.local
+.vercel/
+.docker-test/
+.agents/
+skills-lock.json
+.vercel
