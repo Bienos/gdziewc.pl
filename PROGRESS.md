@@ -306,6 +306,10 @@
 - The nearest-toilet preview can now be closed without hiding the map or points. Idle landing footer clutter is hidden; live map attribution remains available.
 - Lint, typecheck and production build passed.
 
+## TASK-037 natural map gestures observed on 2026-09-14
+
+- Standard MapLibre gestures are enabled: one-finger touch panning and mouse-wheel zoom. Typecheck and production build passed.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.

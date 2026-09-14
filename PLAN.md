@@ -181,6 +181,10 @@ moving the map, and read the landing comfortably on a phone.
 
 Outcome: the nearest-toilet preview can be closed when it obscures map browsing.
 
+### TASK-037 — Natural map gestures
+
+Outcome: the map pans with one finger and zooms using standard touch and mouse-wheel gestures.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

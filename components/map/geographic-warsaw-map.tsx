@@ -108,7 +108,7 @@ export function GeographicWarsawMap({
           [WARSAW_MAP_BOUNDS.east, WARSAW_MAP_BOUNDS.north],
         ],
         attributionControl: {},
-        cooperativeGestures: true,
+        cooperativeGestures: false,
       });
       mapRef.current = map;
       map.addControl(new NavigationControl({ showCompass: false }), "top-right");
