@@ -270,7 +270,7 @@
 - Published the active Vercel firewall rule `Staging public API rate limit`: a fixed-window limit of 120 requests per 60 seconds per IP over `/api/toilets/nearby`, `/api/toilet-reports`, `/api/analytics`, and `/api/errors`.
 - Protected live checks passed through Vercel's automation bypass: homepage returned HTTPS and the expected CSP, geolocation policy, `nosniff`, frame and HSTS headers; a fixed Warsaw nearby POST returned HTTP 200 and 50 ranked results from Neon. Runtime-error and analytics event tables were empty before the protected checks.
 - Local verification passed: staging-test discovery (2 tests), lint, typecheck, unit tests (20 files/71 tests), and production build.
-- Vercel protection intentionally prevents the ordinary Playwright browser suite from using the staging alias until a dedicated bypass secret is configured. This checkout still lacks Git metadata, so the external deployment is identified by its Vercel deployment ID rather than a source commit. Production remains **not approved**; scheduled OSM refresh and external telemetry remain unconfigured.
+- The candidate is now captured by local Git commit `f46fbef0a563b84e9df72894be7c8e623a7265af` and deployed as `dpl_7Zx5oBpPT1BEJAZf4SRsvy4pM9Hf`. Vercel protection intentionally prevents the ordinary Playwright browser suite from using the staging alias until a dedicated bypass secret is configured; the browser-control package needed to configure it was unavailable in this workspace. Production remains **not approved**; scheduled OSM refresh and external telemetry remain unconfigured.
 
 ## Next approved task
 

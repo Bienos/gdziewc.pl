@@ -115,6 +115,9 @@ a real fixed-Warsaw nearby query returned 50 ranked results.
 
 The protected deployment intentionally prevents the ordinary Playwright browser
 suite from running until a dedicated automation bypass secret is configured.
-This checkout also still has no Git metadata, so the deployed source cannot yet
-be identified by a repository commit. These are release-record limitations, not
-evidence of a production approval.
+The app is now captured in local Git commit
+`f46fbef0a563b84e9df72894be7c8e623a7265af` and deployed as Vercel deployment
+`dpl_7Zx5oBpPT1BEJAZf4SRsvy4pM9Hf`. The browser-control package required to
+create the bypass secret was unavailable in this workspace, so that setting
+remains a deliberate staging follow-up. This is not evidence of production
+approval.

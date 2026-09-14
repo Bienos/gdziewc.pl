@@ -1,7 +1,7 @@
 # Code map
 
 Status: TASK-032 staging release verification complete; live protected Vercel
-and Neon evidence is recorded, with browser-bypass/source-revision limitations.
+and Neon evidence is recorded, with a pending browser-bypass limitation only.
 
 ## Application
 
