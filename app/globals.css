@@ -217,8 +217,8 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 52px;
-  padding: 0.65rem 0.8rem;
+  min-height: 56px;
+  padding: 0.6rem 0.8rem;
   border: 2px solid var(--ink-950);
   background: rgba(245, 242, 234, 0.94);
   box-shadow: 5px 5px 0 var(--ink-950);
@@ -232,15 +232,25 @@ textarea:focus-visible {
   min-height: 44px;
   color: var(--ink-950);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-weight: 900;
   letter-spacing: -0.035em;
   line-height: 1;
   text-decoration: none;
 }
 
-.map-header__brand span {
+.map-header__wordmark b {
   color: var(--hot-pink);
+}
+
+.map-header__brand small {
+  padding: 0.18rem 0.28rem;
+  border: 1px solid var(--ink-950);
+  color: var(--muted-500);
+  font-family: var(--font-ui);
+  font-size: 0.52rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
 }
 
 .map-header__city {
@@ -413,6 +423,8 @@ textarea:focus-visible {
   right: var(--space-4);
   left: var(--space-4);
   display: flex;
+  align-items: stretch;
+  min-height: 48px;
   border: 2px solid var(--ink-950);
   background: var(--paper-50);
   box-shadow: 3px 3px 0 var(--ink-950);
@@ -480,30 +492,51 @@ textarea:focus-visible {
   box-shadow: 2px 2px 0 var(--hot-pink);
 }
 
-.map-toolbar button,
-.map-toolbar span {
-  min-height: 44px;
-  padding: 0.45rem 0.75rem;
-  border: 0;
-  color: var(--ink-950);
-  font-size: 0.7rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-}
-
-.map-toolbar span {
+.map-toolbar__summary {
   display: flex;
   flex: 1 1 auto;
   align-items: center;
   min-width: 0;
-  padding-right: 0.35rem;
-  font-size: 0.62rem;
+  padding: 0.45rem 0.65rem;
+  color: var(--ink-950);
+  gap: 0.38rem;
+}
+
+.map-toolbar__summary strong {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.map-toolbar__summary em {
+  overflow: hidden;
+  font-size: 0.56rem;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.map-toolbar__actions {
+  display: flex;
+  flex: none;
 }
 
 .map-toolbar button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.45rem 0.6rem;
   border-left: 2px solid var(--ink-950);
   background: var(--paper-50);
+  color: var(--ink-950);
   cursor: pointer;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
 }
 
 .map-toolbar__location {
@@ -526,7 +559,7 @@ textarea:focus-visible {
   }
 
   .map-header__brand {
-    font-size: 1.15rem;
+    font-size: 1.22rem;
   }
 
   .map-header__city {
@@ -542,19 +575,19 @@ textarea:focus-visible {
     max-width: calc(100% - var(--space-6) - var(--space-6));
   }
 
-  .map-toolbar span {
+  .map-toolbar__summary {
     flex: none;
-    padding-right: 0.75rem;
+    min-width: 9.5rem;
+    padding-right: 0.85rem;
   }
 
-  .map-toolbar button,
-  .map-toolbar span {
+  .map-toolbar button {
     min-height: 48px;
-    padding: 0.55rem 0.9rem;
+    padding: 0.55rem 0.8rem;
   }
 
   .search-area-action {
-    top: max(192px, calc(env(safe-area-inset-top) + 192px));
+    top: max(196px, calc(env(safe-area-inset-top) + 196px));
   }
 }
 
@@ -1109,7 +1142,7 @@ textarea:focus-visible {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .start-card--idle::after {
@@ -1210,6 +1243,7 @@ textarea:focus-visible {
 }
 
 .start-card__copy {
+  max-width: 20rem;
   margin-top: var(--space-3);
   font-size: 1rem;
   font-weight: 700;
@@ -1221,7 +1255,7 @@ textarea:focus-visible {
   justify-content: center;
   width: 100%;
   min-height: 56px;
-  margin-top: var(--space-4);
+  margin-top: var(--space-5);
   border: 2px solid var(--paper-50);
   border-radius: 0;
   background: var(--signal-yellow);

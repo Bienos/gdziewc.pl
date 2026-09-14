@@ -259,29 +259,34 @@ export function LocationExperience() {
       {hasActiveMap && searchStatus === "success" ? (
         <>
           <div className="map-toolbar" role="group" aria-label="Sterowanie wynikami">
-            <span>{manualMapActive ? "TRYB RĘCZNY · " : ""}{filteredToilets.length} WYNIKÓW</span>
-            {userMapLocation ? (
+            <span className="map-toolbar__summary">
+              <strong>{filteredToilets.length}</strong>
+              <em>{manualMapActive ? "MAPA WARSZAWY" : "KIBLI W POBLIŻU"}</em>
+            </span>
+            <div className="map-toolbar__actions">
+              {userMapLocation ? (
+                <button
+                  className="map-toolbar__location"
+                  type="button"
+                  aria-label="Odśwież moją lokalizację GPS"
+                  onClick={requestLocation}
+                >
+                  GPS
+                </button>
+              ) : null}
+              <button type="button" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>FILTRY</button>
               <button
-                className="map-toolbar__location"
                 type="button"
-                aria-label="Odśwież moją lokalizację GPS"
-                onClick={requestLocation}
+                aria-pressed={resultView === "list"}
+                onClick={() => {
+                  const nextView = resultView === "map" ? "list" : "map";
+                  setResultView(nextView);
+                  trackAnalyticsEvent({ name: "view_changed", view: nextView });
+                }}
               >
-                ODŚWIEŻ GPS
+                {resultView === "map" ? "LISTA" : "MAPA"}
               </button>
-            ) : null}
-            <button type="button" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>FILTRY</button>
-            <button
-              type="button"
-              aria-pressed={resultView === "list"}
-              onClick={() => {
-                const nextView = resultView === "map" ? "list" : "map";
-                setResultView(nextView);
-                trackAnalyticsEvent({ name: "view_changed", view: nextView });
-              }}
-            >
-              {resultView === "map" ? "LISTA" : "MAPA"}
-            </button>
+            </div>
           </div>
           {mapSearchCenter && resultView === "map" ? <button className="search-area-action" type="button" onClick={() => { void loadNearby(mapSearchCenter, searchRadiusMeters); setMapSearchCenter(null); }}>ZNAJDŹ KIBEL W TEJ OKOLICY</button> : null}
           {filtersOpen ? <NearbyToiletFilters
@@ -320,13 +325,6 @@ export function LocationExperience() {
             </h1>
             <p className="start-card__copy">{message.body}</p>
           </div>
-          {status === "idle" ? (
-            <ol className="start-card__steps" aria-label="Jak to działa">
-              <li><b>1</b><span>DAJ LOKALIZACJĘ</span></li>
-              <li><b>2</b><span>WYBIERZ NAJLEPSZY KIBEL</span></li>
-              <li><b>3</b><span>KLIKNIJ „PROWADŹ MNIE”</span></li>
-            </ol>
-          ) : null}
           <button
             className="primary-action"
             type="button"
