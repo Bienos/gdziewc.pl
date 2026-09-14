@@ -533,6 +533,35 @@ textarea:focus-visible {
   transform: translateX(-50%);
 }
 
+.offscreen-location-action {
+  position: absolute;
+  z-index: 4;
+  right: var(--space-3);
+  bottom: max(4.25rem, calc(env(safe-area-inset-bottom) + 3.5rem));
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 0.7rem;
+  border: 2px solid var(--ink-950);
+  background: var(--paper-50);
+  box-shadow: 3px 3px 0 #1677ff;
+  color: var(--ink-950);
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.offscreen-location-action span {
+  width: 14px;
+  height: 14px;
+  margin-right: 0.45rem;
+  border: 3px solid var(--paper-0);
+  border-radius: 50%;
+  background: #1677ff;
+  box-shadow: 0 0 0 2px #1677ff;
+}
+
 .nearby-toilet-list {
   position: absolute;
   z-index: 3;

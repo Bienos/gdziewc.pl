@@ -140,7 +140,7 @@ export function LocationExperience() {
         setPosition(null);
         setStatus(statusFromGeolocationError(error.code));
       },
-      { enableHighAccuracy: true, timeout: 10_000, maximumAge: 30_000 },
+      { enableHighAccuracy: true, timeout: 10_000, maximumAge: 0 },
     );
   }
 
@@ -171,6 +171,12 @@ export function LocationExperience() {
     setFilters(DEFAULT_TOILET_FILTERS);
   }
 
+  function focusUserLocation() {
+    if (!userMapLocation) return;
+    setResultView("map");
+    setLocationFocusRequest((current) => current + 1);
+  }
+
   const nextExpandedRadius = EXPANDED_RADII_METERS.find((radius) => radius > searchRadiusMeters) ?? null;
   const mapToilets = filteredToilets;
 
@@ -181,6 +187,7 @@ export function LocationExperience() {
         visible={resultView === "map"}
         userLocation={userMapLocation}
         focusLocation={locationFocusRequest}
+        onRequestFocus={focusUserLocation}
         toilets={mapToilets}
         selectedId={selectedId}
         onSelect={setSelectedId}
@@ -226,10 +233,7 @@ export function LocationExperience() {
                 className="map-toolbar__location"
                 type="button"
                 aria-label="Pokaż moją lokalizację na mapie"
-                onClick={() => {
-                  setResultView("map");
-                  setLocationFocusRequest((current) => current + 1);
-                }}
+                onClick={focusUserLocation}
               >
                 TU JESTEM
               </button>

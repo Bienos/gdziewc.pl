@@ -23,6 +23,7 @@ interface GeographicWarsawMapProps {
   selectedId: string | null;
   onSelect: (id: string) => void;
   onMapMove: (center: Coordinate) => void;
+  onRequestFocus: () => void;
 }
 
 function markerButton(toilet: NearbyToilet, index: number, selectedId: string | null, onSelect: (id: string) => void) {
@@ -77,6 +78,7 @@ export function GeographicWarsawMap({
   selectedId,
   onSelect,
   onMapMove,
+  onRequestFocus,
 }: GeographicWarsawMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -86,6 +88,7 @@ export function GeographicWarsawMap({
   const hasFittedRef = useRef(false);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [locationOutOfView, setLocationOutOfView] = useState(false);
   const userLatitude = userLocation?.lat;
   const userLongitude = userLocation?.lng;
 
@@ -203,6 +206,34 @@ export function GeographicWarsawMap({
     });
   }, [focusLocation, loaded, userLocation, visible]);
 
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !loaded || !visible || !userLocation) {
+      setLocationOutOfView(false);
+      return;
+    }
+
+    const updateLocationVisibility = () => {
+      const point = map.project([userLocation.lng, userLocation.lat]);
+      const canvas = map.getCanvas();
+      const edgePadding = 42;
+      setLocationOutOfView(
+        point.x < edgePadding
+        || point.y < edgePadding
+        || point.x > canvas.clientWidth - edgePadding
+        || point.y > canvas.clientHeight - edgePadding,
+      );
+    };
+
+    map.on("move", updateLocationVisibility);
+    map.on("resize", updateLocationVisibility);
+    updateLocationVisibility();
+    return () => {
+      map.off("move", updateLocationVisibility);
+      map.off("resize", updateLocationVisibility);
+    };
+  }, [loaded, userLocation, visible]);
+
   if (!active) return null;
 
   return (
@@ -213,6 +244,11 @@ export function GeographicWarsawMap({
       aria-label="Mapa toalet w Warszawie"
     >
       <div className="geographic-map__canvas" ref={containerRef} />
+      {locationOutOfView ? (
+        <button className="offscreen-location-action" type="button" onClick={onRequestFocus} data-testid="offscreen-location-action">
+          <span aria-hidden="true" />POKAŻ MOJĄ KROPKĘ
+        </button>
+      ) : null}
       {!loaded && !failed ? <p className="geographic-map__status" role="status">ŁADUJĘ MAPĘ ULIC…</p> : null}
       {failed ? <p className="geographic-map__status geographic-map__status--error" role="status">MAPA ULIC JEST CHWILOWO NIEDOSTĘPNA. UŻYJ LISTY.</p> : null}
     </div>

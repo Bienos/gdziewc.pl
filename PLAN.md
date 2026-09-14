@@ -213,6 +213,10 @@ Outcome: a location result recentres reliably after map startup and remains easy
 
 Outcome: the user-approved street-poster artwork becomes the actual shared-link image.
 
+### TASK-045 — Personal location visibility
+
+Outcome: each consenting visitor uses a fresh personal location and can always return to it while browsing the map.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

@@ -349,6 +349,12 @@
 - The approved generated artwork is now a versioned same-origin public PNG at `/share/gdziekibel-poster-share.png`. Open Graph and Twitter metadata explicitly reference it; the prior automatic Open Graph image route was removed so it cannot override the artwork.
 - The existing title/description remain intact and no location data is present in the metadata. Lint, typecheck, production build and focused metadata browser coverage passed.
 
+## TASK-045 personal location visibility observed on 2026-09-14
+
+- User-triggered browser geolocation now requests a fresh reading rather than accepting a cached prior coordinate. It remains opt-in and local to the visitor's browser; no position is shared, persisted or requested before consent.
+- If browsing moves the real blue map dot outside the screen, a blue `POKAŻ MOJĄ KROPKĘ` control appears and recentres on the same in-memory coordinate. It makes no new geolocation or nearby API request.
+- Focused location browser coverage, lint, typecheck and production build passed.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.
