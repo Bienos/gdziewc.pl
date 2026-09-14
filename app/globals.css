@@ -505,6 +505,11 @@ textarea:focus-visible {
   cursor: pointer;
 }
 
+.map-toolbar__location {
+  background: var(--signal-yellow) !important;
+  white-space: nowrap;
+}
+
 .map-toolbar button[aria-pressed="true"],
 .map-toolbar button[aria-expanded="true"] {
   background: var(--signal-yellow);

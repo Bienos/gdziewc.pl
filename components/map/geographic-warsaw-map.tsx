@@ -18,6 +18,7 @@ interface GeographicWarsawMapProps {
   active: boolean;
   visible: boolean;
   userLocation: Coordinate | null;
+  focusLocation: number;
   toilets: NearbyToilet[];
   selectedId: string | null;
   onSelect: (id: string) => void;
@@ -71,6 +72,7 @@ export function GeographicWarsawMap({
   active,
   visible,
   userLocation,
+  focusLocation,
   toilets,
   selectedId,
   onSelect,
@@ -186,6 +188,16 @@ export function GeographicWarsawMap({
   useEffect(() => {
     if (visible) mapRef.current?.resize();
   }, [visible]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !visible || !userLocation || focusLocation === 0) return;
+    map.easeTo({
+      center: [userLocation.lng, userLocation.lat],
+      zoom: Math.max(map.getZoom(), 15),
+      duration: 250,
+    });
+  }, [focusLocation, userLocation, visible]);
 
   if (!active) return null;
 

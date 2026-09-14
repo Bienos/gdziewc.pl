@@ -189,6 +189,10 @@ Outcome: the map pans with one finger and zooms using standard touch and mouse-w
 
 Outcome: one unobtrusive map attribution, landing-only campaign copy and clearer area-search wording.
 
+### TASK-039 — Recenter user location on the map
+
+Outcome: after browsing, a user can explicitly recenter the map on their last browser-provided location without a fresh location request.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

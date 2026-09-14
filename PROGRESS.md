@@ -315,6 +315,12 @@
 - Removed the redundant application-level OSM credit. The map retains one compact provider attribution; the campaign caption only appears on the first screen.
 - Area refresh now reads `ZNAJDŹ KIBEL W TEJ OKOLICY`. Lint, typecheck and production build passed.
 
+## TASK-039 recenter user location observed on 2026-09-14
+
+- The blue marker now receives a stable in-memory coordinate object, so ordinary interface updates do not recreate or reposition it while the map is being browsed.
+- `TU JESTEM` returns the map to that last browser-provided coordinate at a usable zoom. It makes neither a new geolocation request nor a nearby API request, and the existing area-search flow remains unchanged.
+- Focused Playwright location coverage, lint, typecheck and production build passed. Precise coordinates remain only in component memory.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.

@@ -12,12 +12,14 @@ declare global {
 test("location is requested only after the action and success stays private", async ({ page }) => {
   const externalRequests: string[] = [];
   let nearbyBody = "";
+  let nearbyRequests = 0;
   let reportBody = "";
   page.on("request", (request) => {
     const url = new URL(request.url());
     if (!["localhost", "127.0.0.1"].includes(url.hostname)) externalRequests.push(request.url());
   });
   await page.route("**/api/toilets/nearby", async (route) => {
+    nearbyRequests += 1;
     nearbyBody = route.request().postData() ?? "";
     await route.fulfill({
       status: 200,
@@ -118,6 +120,11 @@ test("location is requested only after the action and success stays private", as
   await expect(page.getByRole("region", { name: "Interaktywna mapa Warszawy. Użyj strzałek, aby przesuwać mapę, oraz przycisków powiększenia." })).toBeVisible();
   await expect(page.getByRole("button", { name: "Powiększ mapę" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Pomniejsz mapę" })).toBeVisible();
+  const recenterLocation = page.getByRole("button", { name: "Pokaż moją lokalizację na mapie" });
+  await expect(recenterLocation).toBeVisible();
+  await recenterLocation.click();
+  expect(await page.evaluate(() => window.__geoCalls)).toBe(1);
+  expect(nearbyRequests).toBe(1);
   await expect(page.getByRole("button", { name: "ODŚWIEŻ LOKALIZACJĘ" })).toBeVisible();
   const preview = page.getByTestId("nearest-preview");
   await expect(preview).toContainText("Toaleta przy Marszałkowskiej");

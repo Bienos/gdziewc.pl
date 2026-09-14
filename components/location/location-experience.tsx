@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GeographicWarsawMap } from "@/components/map/geographic-warsaw-map";
 import { NearestToiletPreview } from "@/components/map/nearest-toilet-preview";
 import { NearbyToiletList } from "@/components/map/nearby-toilet-list";
@@ -55,11 +55,16 @@ export function LocationExperience() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [mapSearchCenter, setMapSearchCenter] = useState<BrowserPosition | null>(null);
   const [previewDismissed, setPreviewDismissed] = useState(false);
+  const [locationFocusRequest, setLocationFocusRequest] = useState(0);
   const message = messageForLocationStatus(status);
   const filteredToilets = filterToilets(toilets, filters);
   const recommendedToilet = filteredToilets.find((toilet) => toilet.isRecommended) ?? filteredToilets[0] ?? null;
   const selectedToilet = filteredToilets.find((toilet) => toilet.id === selectedId) ?? null;
   const hasActiveMap = status === "success" || manualMapActive;
+  const userMapLocation = useMemo(
+    () => status === "success" && position ? { lat: position.latitude, lng: position.longitude } : null,
+    [position, status],
+  );
 
   async function loadNearby(nextPosition: BrowserPosition, radiusMeters = INITIAL_RADIUS_METERS) {
     setSearchStatus("loading");
@@ -174,7 +179,8 @@ export function LocationExperience() {
       <GeographicWarsawMap
         active={hasActiveMap}
         visible={resultView === "map"}
-        userLocation={status === "success" && position ? { lat: position.latitude, lng: position.longitude } : null}
+        userLocation={userMapLocation}
+        focusLocation={locationFocusRequest}
         toilets={mapToilets}
         selectedId={selectedId}
         onSelect={setSelectedId}
@@ -215,6 +221,19 @@ export function LocationExperience() {
         <>
           <div className="map-toolbar" role="group" aria-label="Sterowanie wynikami">
             <span>{manualMapActive ? "TRYB RĘCZNY · " : ""}{filteredToilets.length} WYNIKÓW</span>
+            {userMapLocation ? (
+              <button
+                className="map-toolbar__location"
+                type="button"
+                aria-label="Pokaż moją lokalizację na mapie"
+                onClick={() => {
+                  setResultView("map");
+                  setLocationFocusRequest((current) => current + 1);
+                }}
+              >
+                TU JESTEM
+              </button>
+            ) : null}
             <button type="button" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>FILTRY</button>
             <button
               type="button"
