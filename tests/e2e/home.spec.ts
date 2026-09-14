@@ -130,9 +130,9 @@ test("location is requested only after the action and success stays private", as
   const brandReset = page.getByLabel("GdzieKibel.pl — wróć do strony startowej");
   await expect(brandReset).toBeVisible();
   await expect(brandReset).toHaveAttribute("href", "/");
-  await expect(brandReset).toHaveJSProperty("tagName", "A");
   await expect(page.getByRole("heading", { name: "CHCE CI SIĘ SRAĆ?" })).toBeVisible();
-  await expect(page.getByRole("list", { name: "Jak to działa" })).toHaveCount(0);
+  await expect(page.getByRole("list", { name: "Jak to działa" })).toContainText("DAJ LOKALIZACJĘ");
+  await expect(page.getByRole("list", { name: "Jak to działa" })).toContainText("KLIKNIJ „PROWADŹ MNIE”");
   expect(await page.evaluate(() => window.__geoCalls)).toBe(0);
   expect(externalRequests).toEqual([]);
 

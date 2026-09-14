@@ -294,21 +294,6 @@
   session's own point, each marker exposed its own reported accuracy, and both
   local/session storage objects remained empty.
 - `npm run lint`, `npm run typecheck`, and `npm run build` passed.
-
-## TASK-050 verification observed on 2026-09-15
-
-- The live-map toolbar now presents one compact results summary alongside its
-  GPS, filter and map/list actions, leaving more uninterrupted map surface.
-  On wide, shallow viewports it remains separated from both the header and the
-  area-search action.
-- The start screen no longer carries a three-step checklist: it focuses on the
-  urgency message and location action, with the manual Warsaw-map option still
-  available.
-- The visible `GDZIEKIBEL.PL` wordmark is a real link with a small `START`
-  signal. Clicking it while already on the map reloads `/`, resetting the
-  in-memory journey to the landing screen rather than retaining map state.
-- Focused Playwright map/landing coverage, `npm run lint`, `npm run typecheck`,
-  and `npm run build` passed.
 - Staging Vercel WAF rules and managed-database TLS/least-privilege verification.
 
 ## TASK-029 verification observed on 2026-09-14

@@ -237,11 +237,6 @@ screens as well as the primary mobile view.
 Outcome: independent visitors keep independent private locations, and the map
 uses clear copy to return to a visitor's own point.
 
-### TASK-050 — Clear map controls and home reset
-
-Outcome: the map has calm, readable controls and the visible wordmark provides
-a clear reset to the streamlined landing journey.
-
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

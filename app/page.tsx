@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { WarsawMapArtwork } from "@/components/map/warsaw-map-artwork";
 import { LocationExperience } from "@/components/location/location-experience";
-import { HomeResetLink } from "@/components/location/home-reset-link";
 
 export default function Home() {
   return (
@@ -8,7 +8,9 @@ export default function Home() {
       <WarsawMapArtwork />
 
       <header className="map-header">
-        <HomeResetLink />
+        <Link className="map-header__brand" href="/" aria-label="GdzieKibel.pl — wróć do strony startowej">
+          <span>GDZIE</span>KIBEL.PL
+        </Link>
         <span className="map-header__city">WARSZAWA</span>
       </header>
 
