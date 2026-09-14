@@ -344,6 +344,11 @@
 - The geographic user marker now has a higher stacking level, 72px halo and 24px blue dot for contrast against the map.
 - Focused location browser coverage, lint, typecheck and production build passed. Recentring still causes neither a fresh geolocation request nor a nearby API request.
 
+## TASK-044 poster art used for sharing observed on 2026-09-14
+
+- The approved generated artwork is now a versioned same-origin public PNG at `/share/gdziekibel-poster-share.png`. Open Graph and Twitter metadata explicitly reference it; the prior automatic Open Graph image route was removed so it cannot override the artwork.
+- The existing title/description remain intact and no location data is present in the metadata. Lint, typecheck, production build and focused metadata browser coverage passed.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.

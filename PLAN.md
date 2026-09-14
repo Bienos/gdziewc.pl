@@ -209,6 +209,10 @@ Outcome: shared links carry a distinctive street-poster card aligned with the ca
 
 Outcome: a location result recentres reliably after map startup and remains easy to spot.
 
+### TASK-044 — Use poster art for the share card
+
+Outcome: the user-approved street-poster artwork becomes the actual shared-link image.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:
