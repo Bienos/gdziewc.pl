@@ -301,6 +301,11 @@
 - Photo support remains deliberately deferred until a licensed source or explicit user-photo submission/moderation flow is chosen.
 - Lint, typecheck and the production build passed.
 
+## TASK-036 dismissible preview observed on 2026-09-14
+
+- The nearest-toilet preview can now be closed without hiding the map or points. Idle landing footer clutter is hidden; live map attribution remains available.
+- Lint, typecheck and production build passed.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.

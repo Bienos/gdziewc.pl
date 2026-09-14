@@ -11,18 +11,21 @@ interface NearestToiletPreviewProps {
   toilet: NearbyToilet;
   onRefreshLocation: () => void;
   onOpenDetails: () => void;
+  onDismiss: () => void;
 }
 
 export function NearestToiletPreview({
   toilet,
   onRefreshLocation,
   onOpenDetails,
+  onDismiss,
 }: NearestToiletPreviewProps) {
   const etaMinutes = approximateWalkingMinutes(toilet.distanceMeters);
   const confidenceCaution = lowConfidenceCaution(toilet.confidenceLevel);
 
   return (
     <section className="nearest-preview" data-testid="nearest-preview" aria-labelledby="nearest-preview-title">
+      <button className="nearest-preview__close" type="button" aria-label="Zamknij podgląd najbliższej toalety" onClick={onDismiss}>×</button>
       <p className="nearest-preview__eyebrow">NAJBLIŻSZY SENSOWNY KIBEL</p>
       <h2 id="nearest-preview-title">{toilet.name}</h2>
       <p className="nearest-preview__journey">

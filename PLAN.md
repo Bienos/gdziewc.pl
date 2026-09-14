@@ -177,6 +177,10 @@ and overlapping markers.
 Outcome: users can browse all nearby toilets, deliberately refresh results after
 moving the map, and read the landing comfortably on a phone.
 
+### TASK-036 — Dismissible recommendation preview
+
+Outcome: the nearest-toilet preview can be closed when it obscures map browsing.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

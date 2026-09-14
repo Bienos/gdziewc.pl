@@ -54,6 +54,7 @@ export function LocationExperience() {
   const [manualMapActive, setManualMapActive] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [mapSearchCenter, setMapSearchCenter] = useState<BrowserPosition | null>(null);
+  const [previewDismissed, setPreviewDismissed] = useState(false);
   const message = messageForLocationStatus(status);
   const filteredToilets = filterToilets(toilets, filters);
   const recommendedToilet = filteredToilets.find((toilet) => toilet.isRecommended) ?? filteredToilets[0] ?? null;
@@ -63,6 +64,7 @@ export function LocationExperience() {
   async function loadNearby(nextPosition: BrowserPosition, radiusMeters = INITIAL_RADIUS_METERS) {
     setSearchStatus("loading");
     setToilets([]);
+    setPreviewDismissed(false);
     setSelectedId(null);
     setResultView("map");
     setFilters(DEFAULT_TOILET_FILTERS);
@@ -84,6 +86,7 @@ export function LocationExperience() {
       if (!response.ok) throw new Error("Nearby request failed");
       const payload = nearbyResponseSchema.parse(await response.json());
       setToilets(payload.results);
+      setPreviewDismissed(false);
       setSearchStatus(payload.results.length > 0 ? "success" : "empty");
       trackAnalyticsEvent({ name: "nearby_loaded", result: payload.results.length > 0 ? "success" : "empty" });
     } catch {
@@ -244,11 +247,12 @@ export function LocationExperience() {
         </>
       ) : null}
 
-      {hasActiveMap && searchStatus === "success" && recommendedToilet ? (
+      {hasActiveMap && searchStatus === "success" && recommendedToilet && !previewDismissed ? (
         <NearestToiletPreview
           toilet={recommendedToilet}
           onRefreshLocation={requestLocation}
           onOpenDetails={() => setSelectedId(recommendedToilet.id)}
+          onDismiss={() => setPreviewDismissed(true)}
         />
       ) : null}
 

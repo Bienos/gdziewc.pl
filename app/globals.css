@@ -713,6 +713,26 @@ textarea:focus-visible {
   transform: rotate(-2deg);
 }
 
+.nearest-preview__close {
+  position: absolute;
+  z-index: 1;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: grid;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--ink-950);
+  border-radius: 50%;
+  background: var(--paper-0);
+  color: var(--ink-950);
+  cursor: pointer;
+  font-size: 1.8rem;
+  line-height: 1;
+  place-items: center;
+}
+
+.nearest-preview h2 { max-width: calc(100% - 52px); }
+
 .nearest-preview__eyebrow,
 .nearest-preview h2,
 .nearest-preview__journey,
@@ -1216,6 +1236,11 @@ button.manual-map-action {
   align-items: center;
   min-height: 44px;
   color: inherit;
+}
+
+.map-shell:has(.start-card--idle) .map-shell__attribution,
+.map-shell:has(.start-card--idle) .map-shell__caption {
+  display: none;
 }
 
 @media (min-width: 700px) {
