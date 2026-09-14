@@ -43,14 +43,6 @@ function markerButton(toilet: NearbyToilet, index: number, selectedId: string | 
   button.append(label);
 
   if (toilet.isRecommended) {
-    const direction = document.createElement("i");
-    direction.className = "toilet-marker__direction";
-    direction.setAttribute("aria-hidden", "true");
-    direction.textContent = "↓";
-    button.append(direction);
-  }
-
-  if (toilet.isRecommended) {
     const recommendation = document.createElement("small");
     recommendation.className = "toilet-marker__recommendation";
     recommendation.setAttribute("aria-hidden", "true");

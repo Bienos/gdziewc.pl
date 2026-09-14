@@ -310,14 +310,6 @@
 - Focused Playwright map/landing coverage, `npm run lint`, `npm run typecheck`,
   and `npm run build` passed.
 
-## TASK-051 verification observed on 2026-09-15
-
-- The existing nearest-result, list, detail, map-marker and filter states now
-  render through a TĘDY wayfinding treatment. Their existing data, handlers and
-  API calls remain unchanged.
-- Lint, typecheck and the production build passed. Playwright rendered the map,
-  recommended marker, list controls and nearest-result presentation; its prior
-  copy assertions were updated for the visual-only CTA wording.
 - Staging Vercel WAF rules and managed-database TLS/least-privilege verification.
 
 ## TASK-029 verification observed on 2026-09-14

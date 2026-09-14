@@ -53,10 +53,10 @@ export function ToiletDetailSheet({ toilet, onClose }: ToiletDetailSheetProps) {
       >
         ×
       </button>
-      <p className="toilet-detail-sheet__eyebrow">TĘDY · WYBRANY KIBEL</p>
+      <p className="toilet-detail-sheet__eyebrow">WYBRANY KIBEL</p>
       <h2 id="toilet-detail-title">{toilet.name}</h2>
       <p className="toilet-detail-sheet__journey">
-        <strong>{formatDistance(toilet.distanceMeters)}</strong><span>~{etaMinutes} MIN PIESZO</span>
+        {formatDistance(toilet.distanceMeters)} · ~{etaMinutes} MIN PIESZO
       </p>
       <div className="toilet-detail-sheet__badges" aria-label="Status i cena">
         <span className={`preview-badge preview-badge--opening-${toilet.openingStatus}`}>
@@ -86,7 +86,7 @@ export function ToiletDetailSheet({ toilet, onClose }: ToiletDetailSheetProps) {
           rel="noopener noreferrer"
           onClick={() => trackAnalyticsEvent({ name: "navigation_opened" })}
         >
-          PROWADŹ →
+          PROWADŹ MNIE
         </a>
       ) : (
         <p className="toilet-detail-sheet__navigation-unavailable">

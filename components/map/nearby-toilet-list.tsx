@@ -22,7 +22,7 @@ export function NearbyToiletList({
     <section className="nearby-toilet-list" data-testid="nearby-toilet-list" aria-labelledby="nearby-toilet-list-title">
       <h2 id="nearby-toilet-list-title">KIBLE W POBLIŻU</h2>
       <ol>
-        {toilets.map((toilet, index) => {
+        {toilets.map((toilet) => {
           const isSelected = toilet.id === selectedId;
           const confidenceCaution = lowConfidenceCaution(toilet.confidenceLevel);
 
@@ -36,13 +36,12 @@ export function NearbyToiletList({
                 aria-pressed={isSelected}
                 onClick={() => onSelect(toilet.id)}
               >
-                <span className="nearby-toilet-list__index">{String(index + 1).padStart(2, "0")}</span>
                 <span className="nearby-toilet-list__title-row">
                   <strong>{toilet.name}</strong>
                   {toilet.isRecommended ? <em>TOP</em> : null}
                 </span>
                 <span className="nearby-toilet-list__journey">
-                  <b>{formatDistance(toilet.distanceMeters)} →</b><span>~{approximateWalkingMinutes(toilet.distanceMeters)} MIN PIESZO</span>
+                  {formatDistance(toilet.distanceMeters)} · ~{approximateWalkingMinutes(toilet.distanceMeters)} MIN PIESZO
                 </span>
                 {confidenceCaution ? <span className="confidence-caution">{confidenceCaution}</span> : null}
                 <span className="nearby-toilet-list__badges" aria-label="Znane informacje">
