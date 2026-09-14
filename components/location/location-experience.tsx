@@ -52,6 +52,8 @@ export function LocationExperience() {
   const [filters, setFilters] = useState(DEFAULT_TOILET_FILTERS);
   const [searchRadiusMeters, setSearchRadiusMeters] = useState(INITIAL_RADIUS_METERS);
   const [manualMapActive, setManualMapActive] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [showAllMarkers, setShowAllMarkers] = useState(false);
   const message = messageForLocationStatus(status);
   const filteredToilets = filterToilets(toilets, filters);
   const recommendedToilet = filteredToilets.find((toilet) => toilet.isRecommended) ?? filteredToilets[0] ?? null;
@@ -64,6 +66,8 @@ export function LocationExperience() {
     setSelectedId(null);
     setResultView("map");
     setFilters(DEFAULT_TOILET_FILTERS);
+    setFiltersOpen(false);
+    setShowAllMarkers(false);
     setSearchRadiusMeters(radiusMeters);
     try {
       const response = await fetch("/api/toilets/nearby", {
@@ -97,6 +101,8 @@ export function LocationExperience() {
     setSelectedId(null);
     setResultView("map");
     setFilters(DEFAULT_TOILET_FILTERS);
+    setFiltersOpen(false);
+    setShowAllMarkers(false);
     setSearchRadiusMeters(INITIAL_RADIUS_METERS);
     setManualMapActive(false);
     trackAnalyticsEvent({ name: "location_requested" });
@@ -138,6 +144,8 @@ export function LocationExperience() {
     };
     setPosition(null);
     setManualMapActive(true);
+    setFiltersOpen(false);
+    setShowAllMarkers(false);
     void loadNearby(browsePosition, 10_000);
   }
 
@@ -156,6 +164,7 @@ export function LocationExperience() {
   }
 
   const nextExpandedRadius = EXPANDED_RADII_METERS.find((radius) => radius > searchRadiusMeters) ?? null;
+  const mapToilets = showAllMarkers ? filteredToilets : (recommendedToilet ? [recommendedToilet] : []);
 
   return (
     <>
@@ -163,7 +172,7 @@ export function LocationExperience() {
         active={hasActiveMap}
         visible={resultView === "map"}
         userLocation={status === "success" && position ? { lat: position.latitude, lng: position.longitude } : null}
-        toilets={filteredToilets}
+        toilets={mapToilets}
         selectedId={selectedId}
         onSelect={setSelectedId}
       />
@@ -175,12 +184,7 @@ export function LocationExperience() {
       {hasActiveMap ? (
         <div className={`map-results-status map-results-status--${searchStatus}`} role="status" aria-live="polite">
           {searchStatus === "loading" ? "SZUKAM KIBLI…" : null}
-          {searchStatus === "success" ? (
-            <>
-              <span>{manualMapActive ? "TRYB RĘCZNY · " : ""}{toilets.length} TOALET W PROMIENIU {radiusLabel(searchRadiusMeters)}</span>
-              {manualMapActive ? <button type="button" onClick={requestLocation}>MOJA LOKALIZACJA</button> : null}
-            </>
-          ) : null}
+          {searchStatus === "success" && manualMapActive ? <button type="button" onClick={requestLocation}>MOJA LOKALIZACJA</button> : null}
           {searchStatus === "empty" ? (
             <>
               <span>NIE MA NIC W PROMIENIU {radiusLabel(searchRadiusMeters)}.</span>
@@ -205,28 +209,34 @@ export function LocationExperience() {
 
       {hasActiveMap && searchStatus === "success" ? (
         <>
-          <NearbyToiletFilters
-            filters={filters}
-            matchCount={filteredToilets.length}
-            onToggle={toggleFilter}
-            onClear={clearFilters}
-          />
-          <div className="result-view-switch" role="group" aria-label="Sposób wyświetlania wyników">
+          <div className="map-toolbar" role="group" aria-label="Sterowanie wynikami">
+            <span>{manualMapActive ? "TRYB RĘCZNY · " : ""}{filteredToilets.length} WYNIKÓW</span>
+            <button type="button" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>FILTRY</button>
             <button
               type="button"
-              aria-pressed={resultView === "map"}
-              onClick={() => { setResultView("map"); trackAnalyticsEvent({ name: "view_changed", view: "map" }); }}
+              aria-pressed={showAllMarkers}
+              onClick={() => setShowAllMarkers((shown) => !shown)}
             >
-              MAPA
+              {showAllMarkers ? "MNIEJ" : "PUNKTY"}
             </button>
             <button
               type="button"
               aria-pressed={resultView === "list"}
-              onClick={() => { setResultView("list"); trackAnalyticsEvent({ name: "view_changed", view: "list" }); }}
+              onClick={() => {
+                const nextView = resultView === "map" ? "list" : "map";
+                setResultView(nextView);
+                trackAnalyticsEvent({ name: "view_changed", view: nextView });
+              }}
             >
-              LISTA
+              {resultView === "map" ? "LISTA" : "MAPA"}
             </button>
           </div>
+          {filtersOpen ? <NearbyToiletFilters
+            filters={filters}
+            matchCount={filteredToilets.length}
+            onToggle={toggleFilter}
+            onClear={clearFilters}
+          /> : null}
           {filteredToilets.length === 0 && hasActiveToiletFilters(filters) ? (
             <div className="filter-no-results" role="status">
               <strong>BRAK PASUJĄCYCH KIBLI.</strong>
@@ -240,7 +250,11 @@ export function LocationExperience() {
       ) : null}
 
       {hasActiveMap && searchStatus === "success" && recommendedToilet ? (
-        <NearestToiletPreview toilet={recommendedToilet} onRefreshLocation={requestLocation} />
+        <NearestToiletPreview
+          toilet={recommendedToilet}
+          onRefreshLocation={requestLocation}
+          onOpenDetails={() => setSelectedId(recommendedToilet.id)}
+        />
       ) : null}
 
       {status !== "success" && !manualMapActive ? (
@@ -252,6 +266,13 @@ export function LocationExperience() {
             </h1>
             <p className="start-card__copy">{message.body}</p>
           </div>
+          {status === "idle" ? (
+            <ol className="start-card__steps" aria-label="Jak to działa">
+              <li><b>1</b><span>DAJ LOKALIZACJĘ</span></li>
+              <li><b>2</b><span>WYBIERZ NAJLEPSZY KIBEL</span></li>
+              <li><b>3</b><span>KLIKNIJ „PROWADŹ MNIE”</span></li>
+            </ol>
+          ) : null}
           <button
             className="primary-action"
             type="button"

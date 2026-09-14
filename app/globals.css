@@ -405,22 +405,29 @@ textarea:focus-visible {
   font-weight: 900;
 }
 
-.result-view-switch {
+.map-toolbar {
   position: absolute;
   z-index: 3;
-  top: max(128px, calc(env(safe-area-inset-top) + 128px));
+  top: max(78px, calc(env(safe-area-inset-top) + 78px));
   right: var(--space-4);
+  left: var(--space-4);
   display: flex;
   border: 2px solid var(--ink-950);
+  background: var(--paper-50);
   box-shadow: 3px 3px 0 var(--ink-950);
+  overflow: hidden;
 }
 
 .nearby-toilet-filters {
   position: absolute;
   z-index: 3;
-  top: max(128px, calc(env(safe-area-inset-top) + 128px));
+  top: max(134px, calc(env(safe-area-inset-top) + 134px));
+  right: var(--space-4);
   left: var(--space-4);
-  max-width: calc(100% - 9.5rem);
+  padding: var(--space-2);
+  border: 2px solid var(--ink-950);
+  background: var(--paper-50);
+  box-shadow: 4px 4px 0 var(--hot-pink);
 }
 
 .nearby-toilet-filters__heading {
@@ -429,9 +436,7 @@ textarea:focus-visible {
   justify-content: space-between;
   min-height: 28px;
   padding: 0.25rem 0.4rem;
-  border: 2px solid var(--ink-950);
-  background: var(--paper-50);
-  box-shadow: 2px 2px 0 var(--ink-950);
+  border-bottom: 2px solid var(--ink-950);
   font-size: 0.6rem;
   letter-spacing: 0.05em;
 }
@@ -474,30 +479,41 @@ textarea:focus-visible {
   box-shadow: 2px 2px 0 var(--hot-pink);
 }
 
-.result-view-switch button {
+.map-toolbar button,
+.map-toolbar span {
   min-height: 44px;
   padding: 0.45rem 0.75rem;
   border: 0;
-  background: var(--paper-50);
   color: var(--ink-950);
-  cursor: pointer;
   font-size: 0.7rem;
   font-weight: 900;
   letter-spacing: 0.05em;
 }
 
-.result-view-switch button + button {
-  border-left: 2px solid var(--ink-950);
+.map-toolbar span {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+  padding-right: 0.35rem;
+  font-size: 0.62rem;
 }
 
-.result-view-switch button[aria-pressed="true"] {
+.map-toolbar button {
+  border-left: 2px solid var(--ink-950);
+  background: var(--paper-50);
+  cursor: pointer;
+}
+
+.map-toolbar button[aria-pressed="true"],
+.map-toolbar button[aria-expanded="true"] {
   background: var(--signal-yellow);
 }
 
 .nearby-toilet-list {
   position: absolute;
   z-index: 3;
-  top: max(204px, calc(env(safe-area-inset-top) + 204px));
+  top: max(134px, calc(env(safe-area-inset-top) + 134px));
   right: var(--space-4);
   bottom: min(16rem, 34dvh);
   left: var(--space-4);
@@ -790,6 +806,20 @@ textarea:focus-visible {
   letter-spacing: 0.035em;
 }
 
+.nearest-preview__open {
+  width: 100%;
+  min-height: 48px;
+  margin-top: var(--space-3);
+  border: 2px solid var(--ink-950);
+  background: var(--signal-yellow);
+  box-shadow: 3px 3px 0 var(--ink-950);
+  color: var(--ink-950);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.035em;
+}
+
 .toilet-detail-sheet {
   position: absolute;
   z-index: 5;
@@ -955,6 +985,60 @@ textarea:focus-visible {
   background: var(--ink-950);
   box-shadow: 7px 7px 0 var(--hot-pink);
   color: var(--paper-50);
+}
+
+.start-card--idle {
+  top: max(84px, calc(env(safe-area-inset-top) + 84px));
+  bottom: auto;
+  min-height: min(34rem, calc(100dvh - 7rem));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.start-card--idle::after {
+  position: absolute;
+  top: 2.2rem;
+  right: 1rem;
+  display: grid;
+  width: clamp(7rem, 34vw, 10rem);
+  aspect-ratio: 1;
+  border: 3px solid var(--paper-50);
+  border-radius: 50% 50% 50% 10%;
+  color: var(--signal-yellow);
+  content: "WC";
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 14vw, 5rem);
+  place-items: center;
+  transform: rotate(-12deg);
+}
+
+.start-card__steps {
+  display: grid;
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(245, 242, 234, 0.45);
+  list-style: none;
+}
+
+.start-card__steps li {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  border-bottom: 1px solid rgba(245, 242, 234, 0.28);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  gap: var(--space-2);
+}
+
+.start-card__steps b {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  background: var(--hot-pink);
+  color: var(--ink-950);
+  place-items: center;
 }
 
 .start-card::before {

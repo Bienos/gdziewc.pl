@@ -10,11 +10,13 @@ import { lowConfidenceCaution } from "@/lib/toilets/detail";
 interface NearestToiletPreviewProps {
   toilet: NearbyToilet;
   onRefreshLocation: () => void;
+  onOpenDetails: () => void;
 }
 
 export function NearestToiletPreview({
   toilet,
   onRefreshLocation,
+  onOpenDetails,
 }: NearestToiletPreviewProps) {
   const etaMinutes = approximateWalkingMinutes(toilet.distanceMeters);
   const confidenceCaution = lowConfidenceCaution(toilet.confidenceLevel);
@@ -40,6 +42,9 @@ export function NearestToiletPreview({
         Czas jest orientacyjny. Status godzin wynika tylko z danych źródłowych.
       </p>
       {confidenceCaution ? <p className="confidence-caution">{confidenceCaution}</p> : null}
+      <button className="nearest-preview__open" type="button" onClick={onOpenDetails}>
+        ZOBACZ I PROWADŹ MNIE
+      </button>
       <button className="nearest-preview__refresh" type="button" onClick={onRefreshLocation}>
         ODŚWIEŻ LOKALIZACJĘ
       </button>

@@ -102,6 +102,8 @@ test("location is requested only after the action and success stays private", as
   await expect(page.getByTestId("map-shell")).toBeVisible();
   await expect(page.getByLabel("GdzieKibel.pl — strona główna")).toBeVisible();
   await expect(page.getByRole("heading", { name: "CHCE CI SIĘ SRAĆ?" })).toBeVisible();
+  await expect(page.getByRole("list", { name: "Jak to działa" })).toContainText("DAJ LOKALIZACJĘ");
+  await expect(page.getByRole("list", { name: "Jak to działa" })).toContainText("KLIKNIJ „PROWADŹ MNIE”");
   expect(await page.evaluate(() => window.__geoCalls)).toBe(0);
   expect(externalRequests).toEqual([]);
 
@@ -124,11 +126,14 @@ test("location is requested only after the action and success stays private", as
   await expect(preview).toContainText("STATUS NIEZNANY");
   await expect(preview).toContainText("ZA DARMO");
   await expect(preview).toContainText("DANE DO POTWIERDZENIA");
+  await expect(page.getByTestId("toilet-marker")).toHaveCount(1);
+  await page.getByRole("button", { name: "PUNKTY" }).click();
   await expect(page.getByTestId("toilet-marker")).toHaveCount(2);
   await expect(page.getByTestId("toilet-marker").first()).toHaveAttribute("data-recommended", "true");
   await expect(page.getByTestId("toilet-marker").first()).toHaveAccessibleName(/polecany/);
+  await page.getByRole("button", { name: "FILTRY" }).click();
   await page.getByRole("button", { name: "ZA DARMO" }).click();
-  await expect(page.getByText("1 WYNIK")).toBeVisible();
+  await expect(page.getByText("1 WYNIK", { exact: true })).toBeVisible();
   await expect(page.getByTestId("toilet-marker")).toHaveCount(1);
   await page.getByRole("button", { name: "WYCZYŚĆ" }).click();
   await expect(page.getByTestId("toilet-marker")).toHaveCount(2);

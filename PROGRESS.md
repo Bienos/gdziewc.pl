@@ -287,6 +287,13 @@
 - Healthy immutable production baseline: source revision `b9c299ecd4b1d3915d8e8a4e42a0e331e5e9cc3d`, Vercel deployment `dpl_B3oBMhh5gZ2bN8uPfaxdoeKMmCKF`. Retain that deployment as the rollback baseline for a later faulty release.
 - Scheduled OSM refresh and an external analytics/error sink remain unconfigured; OpenFreeMap remains the accepted no-SLA MVP map-provider risk.
 
+## TASK-034 mobile clarity and landing observed on 2026-09-14
+
+- First open now includes a poster-style three-step explanation and one clear location CTA.
+- Active map controls are consolidated into a compact toolbar; filters open only on request, and the initial map shows the recommended toilet until the user asks to show all points.
+- The recommendation preview now gives a direct route into details and navigation.
+- Lint, typecheck, production build and the focused location/manual-map browser checks passed.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.

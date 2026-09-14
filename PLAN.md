@@ -164,6 +164,14 @@ Outcome: migrations, deployment, smoke tests, observability and rollback path ve
 
 Outcome: approved artefact is deployed and critical production journey verified.
 
+## Post-launch refinement
+
+### TASK-034 — Mobile map clarity and landing page
+
+Outcome: the initial landing page clearly explains the product and the active
+mobile map prioritises the best toilet and navigation over simultaneous controls
+and overlapping markers.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:
