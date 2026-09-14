@@ -205,6 +205,10 @@ Outcome: the live share card reliably loads the branded image and the logo resta
 
 Outcome: shared links carry a distinctive street-poster card aligned with the campaign reference.
 
+### TASK-043 — Reliable visible location marker
+
+Outcome: a location result recentres reliably after map startup and remains easy to spot.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:

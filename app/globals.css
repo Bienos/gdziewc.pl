@@ -165,7 +165,7 @@ textarea:focus-visible {
 
 .user-location--geographic {
   position: absolute;
-  z-index: auto;
+  z-index: 5;
   top: 0;
   left: 0;
 }
@@ -280,8 +280,8 @@ textarea:focus-visible {
   top: 37%;
   left: 54%;
   display: grid;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   place-items: center;
   transform: translate(-50%, -50%);
 }
@@ -293,18 +293,18 @@ textarea:focus-visible {
 }
 
 .user-location__halo {
-  width: 64px;
-  height: 64px;
-  background: rgba(37, 126, 255, 0.2);
-  border: 1px solid rgba(37, 126, 255, 0.38);
+  width: 72px;
+  height: 72px;
+  background: rgba(22, 119, 255, 0.24);
+  border: 2px solid rgba(22, 119, 255, 0.5);
 }
 
 .user-location__dot {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border: 4px solid var(--paper-0);
   background: #1677ff;
-  box-shadow: 0 1px 5px rgba(11, 11, 11, 0.45);
+  box-shadow: 0 1px 6px rgba(11, 11, 11, 0.6), 0 0 0 2px rgba(22, 119, 255, 0.35);
 }
 
 .toilet-markers {

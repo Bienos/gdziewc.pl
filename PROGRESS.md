@@ -338,6 +338,12 @@
 - The generated 1200×630 sharing image now follows the supplied street-poster direction without copying the reference: torn-looking paper side strips, black poster field, skewed hot-pink `LEPIEJ ZNALEŹĆ KIBEL NIŻ SIĘ ZESRAĆ!`, yellow `GDZIEKIBEL.PL` tape and small Warsaw label.
 - Lint, typecheck, production build and focused SEO browser check passed. The deployed `/opengraph-image` PNG was fetched and visually inspected from the live alias.
 
+## TASK-043 reliable visible location marker observed on 2026-09-14
+
+- Recentring now waits for MapLibre's loaded state, so a fast tap on `TU JESTEM` cannot be lost while the map is still starting. It preserves the existing in-memory coordinate and minimum local zoom.
+- The geographic user marker now has a higher stacking level, 72px halo and 24px blue dot for contrast against the map.
+- Focused location browser coverage, lint, typecheck and production build passed. Recentring still causes neither a fresh geolocation request nor a nearby API request.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.

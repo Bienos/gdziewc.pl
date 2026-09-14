@@ -195,13 +195,13 @@ export function GeographicWarsawMap({
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !visible || !userLocation || focusLocation === 0) return;
+    if (!map || !loaded || !visible || !userLocation || focusLocation === 0) return;
     map.easeTo({
       center: [userLocation.lng, userLocation.lat],
       zoom: Math.max(map.getZoom(), 16),
       duration: 250,
     });
-  }, [focusLocation, userLocation, visible]);
+  }, [focusLocation, loaded, userLocation, visible]);
 
   if (!active) return null;
 
