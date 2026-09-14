@@ -327,6 +327,12 @@
 - A successful browser-location map now centres on the user at zoom 16 rather than fitting the full result radius. `TU JESTEM` uses the same minimum zoom; nearby results remain loaded and location remains in component memory.
 - Lint, typecheck, production build and the focused SEO Playwright check passed.
 
+## TASK-041 visible share image and brand reset observed on 2026-09-14
+
+- Share metadata now uses the live deployment as its base, allowing the generated `/opengraph-image` route to resolve on the host a recipient actually opens. The sharing image has a large `GDZIEKIBEL.PL` masthead, `ZNAJDŹ KIBEL. SZYBKO!` and `ZANIM SIĘ ZESRASZ.`
+- The document, Open Graph and social title now end in an exclamation mark. The header brand is a link to `/`, which resets the in-memory landing experience.
+- Lint, typecheck, production build and focused SEO/home Playwright checks passed. No user location is present in metadata or URLs.
+
 ## TASK-030 independent release review observed on 2026-09-14
 
 - Verdict: **CONDITIONAL PASS** for the local engineering release candidate; not approved for staging or production.

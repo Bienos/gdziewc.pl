@@ -3,8 +3,8 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gdziekibel.pl"),
-  title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz",
+  metadataBase: new URL("https://gdziekibel-live.vercel.app"),
+  title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz!",
   description: "GdzieKibel.pl szybko znajdzie Ci pobliski kibel w Warszawie — bez zapisywania Twojej lokalizacji.",
   alternates: { canonical: "/" },
   openGraph: {
@@ -12,12 +12,12 @@ export const metadata: Metadata = {
     locale: "pl_PL",
     url: "/",
     siteName: "GdzieKibel.pl",
-    title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz",
+    title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz!",
     description: "GdzieKibel.pl szybko znajdzie Ci pobliski kibel w Warszawie — bez zapisywania Twojej lokalizacji.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz",
+    title: "GdzieKibel.pl — znajdź kibel szybko, zanim się zesrasz!",
     description: "GdzieKibel.pl szybko znajdzie Ci pobliski kibel w Warszawie — bez zapisywania Twojej lokalizacji.",
   },
 };

@@ -197,6 +197,10 @@ Outcome: after browsing, a user can explicitly recenter the map on their last br
 
 Outcome: shared links use the product's real message and accepted locations open to a closer local map view.
 
+### TASK-041 — Visible share image and brand reset
+
+Outcome: the live share card reliably loads the branded image and the logo restarts the landing flow.
+
 ## Future backlog — not MVP commitments
 
 Only promote these to tasks based on evidence:
