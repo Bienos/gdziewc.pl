@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
+import { PageAnalytics } from "@/components/analytics/page-analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gdziewc.pl"),
@@ -32,7 +33,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pl">
-      <body>{children}</body>
+      <body>
+        {children}
+        <PageAnalytics />
+      </body>
     </html>
   );
 }

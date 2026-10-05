@@ -236,7 +236,7 @@
 - Exact Warsaw city toilet dataset endpoint, dataset-specific licence, authentication and update cadence.
 - Production-safe OSM extract/provider path and combined-database ODbL review.
 - Final production map tile provider.
-- Final analytics provider.
+- Final analytics provider for the first-party events. Page views go to Vercel Web Analytics (ADR-0003).
 - Real-data deduplication thresholds.
 
 ## TASK-046 verification observed on 2026-09-14
@@ -458,3 +458,12 @@
 - Visual inspection at 390×844 and 320×640 confirmed Warsaw streets, Wisła, labelled controls, attribution and no horizontal overflow; browser error/warning logs were empty.
 - Verification passed: lint, typecheck, 20 unit files/71 tests, 11 Chromium tests, 3 real-PostGIS files/9 tests, production build, mobile performance, production full-stack journey and dependency audit with zero vulnerabilities.
 - TASK-030's sole product/architecture blocker is resolved. No staging deployment was started.
+
+## Vercel Web Analytics observed on 2026-10-05
+
+- Owner-directed, outside the task sequence. Vercel Web Analytics page views are rendered from `app/layout.tsx` (`@vercel/analytics` 2.0.1, pinned; ADR-0003). `beforeSend` sends origin and path only, so a query string or hash never reaches Vercel. The script loads from the same-origin `/_vercel/insights/script.js`, also under `next dev`. The CSP is unchanged. The first-party `POST /api/analytics` events are unchanged.
+- `npm install` dropped the duplicate `"maplibre-gl": "6.9.0"` key from `package.json`. The surviving `"^6.9.0"` was already the value in effect, and the lockfile's root entry already read `^6.9.0`.
+- Before the change, all 164 source files listed by the live `gdziekibel-live` deployment `dpl_8LCmfYzN7VXLkbiu7GzWEPrUSPMs` (CLI, 2026-09-14) matched `main` @ `27b4705` by SHA-1. Its other files were build and test output.
+- Passed: lint, typecheck, 22 unit files/78 tests (4 new in `tests/unit/page-view-url.test.ts`), production build (`/` first load 130 kB, unchanged), and the mobile performance test (no external resources).
+- Under `npm run start`, Chromium loading `/?lat=52.2297&lng=21.0122#hash` requested only same-origin URLs, including `/_vercel/insights/script.js` (404 locally). It logged no CSP violation, and the queued `beforeSend` turned the address into `http://127.0.0.1:3999/`.
+- `test:e2e` (run against the installed Chromium 1194, not the pinned 1193): 9 passed and 3 failed. The same 3 failed identically on `27b4705` without this change: the keyboard critical journey and the location-success test both timed out at 30 s, and permission denial failed a visibility check.
