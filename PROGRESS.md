@@ -236,7 +236,7 @@
 - Exact Warsaw city toilet dataset endpoint, dataset-specific licence, authentication and update cadence.
 - Production-safe OSM extract/provider path and combined-database ODbL review.
 - Final production map tile provider.
-- Final analytics provider.
+- Final analytics provider for the first-party events. Page views go to Vercel Web Analytics (ADR-0003).
 - Real-data deduplication thresholds.
 
 ## TASK-046 verification observed on 2026-09-14
@@ -458,3 +458,20 @@
 - Visual inspection at 390×844 and 320×640 confirmed Warsaw streets, Wisła, labelled controls, attribution and no horizontal overflow; browser error/warning logs were empty.
 - Verification passed: lint, typecheck, 20 unit files/71 tests, 11 Chromium tests, 3 real-PostGIS files/9 tests, production build, mobile performance, production full-stack journey and dependency audit with zero vulnerabilities.
 - TASK-030's sole product/architecture blocker is resolved. No staging deployment was started.
+
+## Vercel Web Analytics observed on 2026-10-05
+
+- Owner-directed, outside the task sequence. Vercel Web Analytics page views are rendered from `app/layout.tsx` (`@vercel/analytics` 2.0.1, pinned; ADR-0003). `beforeSend` sends origin and path only, so a query string or hash never reaches Vercel. The script loads from the same-origin `/_vercel/insights/script.js`, also under `next dev`. The CSP is unchanged. The first-party `POST /api/analytics` events are unchanged.
+- `npm install` dropped the duplicate `"maplibre-gl": "6.9.0"` key from `package.json`. The surviving `"^6.9.0"` was already the value in effect, and the lockfile's root entry already read `^6.9.0`.
+- Before the change, all 164 source files listed by the live `gdziekibel-live` deployment `dpl_8LCmfYzN7VXLkbiu7GzWEPrUSPMs` (CLI, 2026-09-14) matched `main` @ `27b4705` by SHA-1. Its other files were build and test output.
+- Passed: lint, typecheck, 22 unit files/78 tests (4 new in `tests/unit/page-view-url.test.ts`), production build (`/` first load 130 kB, unchanged), and the mobile performance test (no external resources).
+- Under `npm run start`, Chromium loading `/?lat=52.2297&lng=21.0122#hash` requested only same-origin URLs, including `/_vercel/insights/script.js` (404 locally). It logged no CSP violation, and the queued `beforeSend` turned the address into `http://127.0.0.1:3999/`.
+- `test:e2e` (run against the installed Chromium 1194, not the pinned 1193): 9 passed and 3 failed. The same 3 failed identically on `27b4705` without this change: the keyboard critical journey and the location-success test both timed out at 30 s, and permission denial failed a visibility check.
+
+## npm audit fixes observed on 2026-10-05
+
+- `npm audit --audit-level=high` reported 12 high-severity advisories, all in lint tooling: `brace-expansion`, `typescript-eslint` 8.44.1 through its own `fast-glob`, and `braces` ← `micromatch` ← `fast-glob` ← `@next/eslint-plugin-next` ← `eslint-config-next`. No `braces` release fixes GHSA-vfj7-8cjw-p6xm (3.0.3 is the latest, and the advisory covers `<=3.0.3`). Every `@next/eslint-plugin-next` release checked (15.5.4 through 16.3.8) pins `fast-glob` 3.3.1.
+- `typescript-eslint` went from 8.44.1 to 8.71.0 (minor; its `typescript-estree` uses `tinyglobby` instead of `fast-glob`). `npm audit fix` moved `brace-expansion` to 1.1.21 and 5.0.12.
+- An override in `package.json` makes `@next/eslint-plugin-next` resolve `fast-glob` to `tinyglobby` 0.2.17. The plugin's only call is `globSync(pattern, { onlyDirectories: true })` in `utils/get-root-dirs.js`, and only when `settings.next.rootDir` is set. This repository doesn't set it. Known difference: `tinyglobby` expands a plain directory pattern (for example `app/`) into its subdirectories, where `fast-glob` returns the directory alone. If `rootDir` is ever set, use patterns that match directories exactly, or drop the override once the plugin stops pinning `fast-glob`.
+- `fast-glob`, `micromatch` and `braces` are no longer installed. Lockfile changes beyond those removals: `@typescript-eslint/*` 8.70.0/8.44.1 → 8.71.0, and `brace-expansion` patch versions.
+- Passed: `npm ci` from the new lockfile, `npm run audit:dependencies` (0 vulnerabilities), lint, typecheck, 22 unit files/78 tests, and the production build (`/` 130 kB). Linting a probe file still raised `@next/next/no-img-element` and `@next/next/no-sync-scripts`, with 21 `@next/next/*` rules active.

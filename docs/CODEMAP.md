@@ -5,7 +5,9 @@ and Neon evidence is recorded, with a pending browser-bypass limitation only.
 
 ## Application
 
-- `app/layout.tsx` — root HTML document, Polish language metadata, and global styles.
+- `app/layout.tsx` — root HTML document, Polish language metadata, global styles, and Vercel Web Analytics.
+- `components/analytics/page-analytics.tsx` — Vercel Web Analytics page views from the same-origin script path (ADR-0003).
+- `lib/analytics/page-view-url.ts` — `beforeSend` redaction that sends a page view's origin and path only (ADR-0003).
 - `app/page.tsx` — branded root map-shell composition, hero message, location-action affordance, and honest pre-location copy.
 - `components/location/location-experience.tsx` — private geolocation plus validated nearby POST, marker/result state, truthful 2/5/10km empty recovery, and stale-result clearing.
 - `lib/location/status.ts` — deterministic browser geolocation error mapping and Polish status copy.
